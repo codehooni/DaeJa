@@ -22,6 +22,7 @@
         <Button
             android:id="@+id/btn_open"
             android:layout_margin="10dp"
+            android:background="@drawable/menu_button_background"
             android:layout_width="50dp"
             android:layout_height="50dp"/>
         <ImageView

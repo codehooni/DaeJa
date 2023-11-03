@@ -22,8 +22,9 @@ public class HistoryActivity extends AppCompatActivity {
         img_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HistoryActivity.this, MainActivity.class);
-                startActivity(intent);
+                onBackPressed();
+//                Intent intent = new Intent(HistoryActivity.this, MainActivity.class);
+//                startActivity(intent);
             }
         });
     }

@@ -48,11 +48,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/selector_button"
             android:layout_margin="5dp">
             <ImageView
                 android:layout_width="@dimen/back_button_size"
                 android:layout_height="@dimen/back_button_size"
-                android:src="@drawable/icon_home"/>
+                android:src="@drawable/home"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,11 +68,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/selector_button"
             android:layout_margin="5dp">
             <ImageView
                 android:layout_width="@dimen/back_button_size"
                 android:layout_height="@dimen/back_button_size"
-                android:src="@drawable/icon_history"/>
+                android:src="@drawable/history"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,11 +88,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/selector_button"
             android:layout_margin="5dp">
             <ImageView
                 android:layout_width="@dimen/back_button_size"
                 android:layout_height="@dimen/back_button_size"
-                android:src="@drawable/icon_settings"/>
+                android:src="@drawable/settings"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,11 +108,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/selector_button"
             android:layout_margin="5dp">
             <ImageView
                 android:layout_width="@dimen/back_button_size"
                 android:layout_height="@dimen/back_button_size"
-                android:src="@drawable/icon_logout"/>
+                android:src="@drawable/logout"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
