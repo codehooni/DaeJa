@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.page.Page1Activity"
+            android:exported="false" />
+        <activity
             android:name=".ui.starting.StartingActivity"
             android:exported="false" />
         <activity

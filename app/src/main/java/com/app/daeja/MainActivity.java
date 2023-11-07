@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.app.daeja.network.TestDomain;
 import com.app.daeja.network.retrofit;
+import com.app.daeja.ui.Login.LoginActivity;
 import com.app.daeja.ui.history.HistoryActivity;
 import com.app.daeja.ui.setting.SettingActivity;
 import com.skt.Tmap.TMapMarkerItem;
@@ -192,6 +193,34 @@ public class MainActivity extends AppCompatActivity {
         tMapView.setZoomLevel(16);
 
         linearLayoutTmap.addView( tMapView );
+
+        Button btn_1 = (Button) findViewById(R.id.btn_1);
+        Button btn_2 = (Button) findViewById(R.id.btn_2);
+        Button btn_3 = (Button) findViewById(R.id.btn_3);
+
+        btn_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Page1Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Page2Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Page3Activity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
