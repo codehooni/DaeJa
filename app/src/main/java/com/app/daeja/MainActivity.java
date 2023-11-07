@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,11 +40,21 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private View drawerView;
+    private ImageView img_reset;
     private LinearLayout linearLayoutTmap;
     TMapView tMapView;
     private static final String tApiKey = "KbtV6K1LiCa2kYZ2ieDhU3pxBBS5A5gA5CL5O3el";
     Call <TestDomain> call;
     TextView textView;
+
+    //요청 받을 변수
+    int id;
+    String parkingCode;
+    String parkingName;
+    double capacity;
+    double curParking;
+    double lat;
+    double lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageView img_recomend = (ImageView) findViewById(R.id.img_recomend);
+        ImageView img_recomend = (ImageView) findViewById(R.id.img_reset);
         img_recomend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,39 +129,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        //tmap-related parts
-        linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
-
-        //create markers
-        TMapMarkerItem markerItem1 = new TMapMarkerItem();
-        TMapPoint tMapPoint1 = new TMapPoint(37.32160, 127.1267); // 단국대학교 핀
-
-        //marker setting
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.destination);
-        markerItem1.setIcon(bitmap);
-        markerItem1.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
-        markerItem1.setTMapPoint( tMapPoint1 );
-        markerItem1.setName("단국대학교"); // 마커의 타이틀 지정
-        markerItem1.setCanShowCallout(true); // 풍선뷰
-        markerItem1.setCalloutTitle("단국대학교");
-        markerItem1.setCalloutSubTitle("180 / 200");
-        markerItem1.setCalloutLeftImage(bitmap);
-        //markerItem1.setCalloutRightButtonImage(bitmap);
-        //markerItem1.setEnableClustering(true);
-
-        //tMapView setting
-        tMapView = new TMapView(this);
-        tMapView.setCenterPoint(127.1267, 37.32160, true); //단국대학교: 37.32166, 127.1267
-        tMapView.setSKTMapApiKey( tApiKey );
-        tMapView.setZoomLevel(16);
-        //add mark  maps
-        tMapView.addMarkerItem("markerItem1", markerItem1); // 지도에 마커 추가
-
-        linearLayoutTmap.addView( tMapView );
-
-        textView = findViewById(R.id.txt_view);
-
+        // 변경점
         call = retrofit.getApiService().test_api_get("26");
         call.enqueue(new Callback<TestDomain>() {
             //콜백 받는 부분
@@ -158,16 +137,15 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<TestDomain> call, Response<TestDomain> response) {
                 System.out.println("onResponse");
                 TestDomain result = response.body();
-                String str;
-                str = Integer.toString(result.getId()) + "\n" +
-                        result.getParkingCode() + "\n" +
-                        result.getParkingName() + "\n" +
-                        result.getCapacity() + "\n" +
-                        result.getCurParking() + "\n" +
-                        result.getLat() + "\n" +
-                        result.getLng();
 
-                textView.setText(str);
+                id = result.getId();
+                parkingCode = result.getParkingCode();
+                parkingName = result.getParkingName();
+                capacity = result.getCapacity();
+                curParking = result.getCurParking();
+                lat = result.getLat();
+                lng = result.getLng();
+
             }
 
             @Override
@@ -177,7 +155,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //tmap-related parts
+        linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
 
+        img_reset = (ImageView) findViewById(R.id.img_reset);
+        img_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //create markers
+                TMapMarkerItem markerItem1 = new TMapMarkerItem();
+                TMapPoint tMapPoint1 = new TMapPoint(lat, lng); // 단국대학교 핀
+
+                //marker setting
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.destination);
+                markerItem1.setIcon(bitmap);
+                markerItem1.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
+                markerItem1.setTMapPoint( tMapPoint1 );
+                markerItem1.setName(parkingName); // 마커의 타이틀 지정
+                markerItem1.setCanShowCallout(true); // 풍선뷰
+                markerItem1.setCalloutTitle(parkingName);
+                markerItem1.setCalloutSubTitle( capacity + "/" + curParking);
+                markerItem1.setCalloutLeftImage(bitmap);
+                //markerItem1.setCalloutRightButtonImage(bitmap);
+                //markerItem1.setEnableClustering(true);
+
+                //add mark  maps
+                tMapView.addMarkerItem("markerItem1", markerItem1); // 지도에 마커 추가
+            }
+        });
+        // 변경점
+
+
+        //tMapView setting
+        tMapView = new TMapView(this);
+        tMapView.setSKTMapApiKey( tApiKey );
+        tMapView.setZoomLevel(16);
+
+        linearLayoutTmap.addView( tMapView );
 
     }
 
