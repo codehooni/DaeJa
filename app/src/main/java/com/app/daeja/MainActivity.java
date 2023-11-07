@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
     int id;
     String parkingCode;
     String parkingName;
-    double capacity;
-    double curParking;
+    int capacity;
+    int curParking;
     double lat;
     double lng;
 
@@ -141,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
                 id = result.getId();
                 parkingCode = result.getParkingCode();
                 parkingName = result.getParkingName();
-                capacity = result.getCapacity();
-                curParking = result.getCurParking();
+                capacity = (int) result.getCapacity();
+                curParking = (int) result.getCurParking();
                 lat = result.getLat();
                 lng = result.getLng();
 
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 markerItem1.setName(parkingName); // 마커의 타이틀 지정
                 markerItem1.setCanShowCallout(true); // 풍선뷰
                 markerItem1.setCalloutTitle(parkingName);
-                markerItem1.setCalloutSubTitle( capacity + "/" + curParking);
+                markerItem1.setCalloutSubTitle( curParking + "/" + capacity);
                 markerItem1.setCalloutLeftImage(bitmap);
                 //markerItem1.setCalloutRightButtonImage(bitmap);
                 //markerItem1.setEnableClustering(true);
