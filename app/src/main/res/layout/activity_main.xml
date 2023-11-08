@@ -50,22 +50,23 @@
             android:layout_gravity="right"
             android:src="@drawable/reset" />
 
-        <LinearLayout
-            android:id="@+id/ll_info"
-            android:layout_width="match_parent"
-            android:layout_height="66dp"
-            android:background="#ffffff"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:layout_alignParentBottom="true">
-            <TextView
-                android:id="@+id/txt_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="단국대학교"
-                android:gravity="center"
-                android:textSize="20sp"/>
-        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:id="@+id/ll_info"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="66dp"-->
+<!--            android:background="#ffffff"-->
+<!--            android:orientation="vertical"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:layout_alignParentBottom="true">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/txt_view"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:text="단국대학교 야외 주차장"-->
+<!--                android:textSize="20sp" />-->
+<!--        </LinearLayout>-->
 
         <ImageView
             android:id="@+id/img_search"

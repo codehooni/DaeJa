@@ -4,11 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +17,6 @@ import android.widget.Toast;
 
 import com.app.daeja.network.TestDomain;
 import com.app.daeja.network.retrofit;
-import com.app.daeja.ui.Login.LoginActivity;
 import com.app.daeja.ui.history.HistoryActivity;
 import com.app.daeja.ui.setting.SettingActivity;
 import com.skt.Tmap.TMapMarkerItem;
@@ -28,9 +25,8 @@ import com.skt.Tmap.TMapView;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static java.lang.Thread.sleep;
 
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import retrofit2.Call;
@@ -163,64 +159,50 @@ public class MainActivity extends AppCompatActivity {
         img_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //create markers
-                TMapMarkerItem markerItem1 = new TMapMarkerItem();
-                TMapPoint tMapPoint1 = new TMapPoint(lat, lng); // 단국대학교 핀
 
-                //marker setting
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.destination);
-                markerItem1.setIcon(bitmap);
-                markerItem1.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
-                markerItem1.setTMapPoint( tMapPoint1 );
-                markerItem1.setName(parkingName); // 마커의 타이틀 지정
-                markerItem1.setCanShowCallout(true); // 풍선뷰
-                markerItem1.setCalloutTitle(parkingName);
-                markerItem1.setCalloutSubTitle( curParking + "/" + capacity);
-                markerItem1.setCalloutLeftImage(bitmap);
-                //markerItem1.setCalloutRightButtonImage(bitmap);
-                //markerItem1.setEnableClustering(true);
-
-                //add mark  maps
-                tMapView.addMarkerItem("markerItem1", markerItem1); // 지도에 마커 추가
             }
         });
+
+        id = 26;
+        parkingCode = "ㅇㅇ";
+        parkingName = "단국대학교 야외 주차장";
+        capacity = (int) 80;
+        curParking = (int) 55;
+        //37.32335, 127.1276
+        lat = 37.32335;
+        lng = 127.1276;
+
+        //create markers
+        TMapMarkerItem markerItem1 = new TMapMarkerItem();
+        TMapPoint tMapPoint1 = new TMapPoint(lat, lng); // 단국대학교 핀
+
+        //marker setting
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.destination);
+        markerItem1.setIcon(bitmap);
+        markerItem1.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
+        markerItem1.setTMapPoint( tMapPoint1 );
+        markerItem1.setName(parkingName); // 마커의 타이틀 지정
+        markerItem1.setCanShowCallout(true); // 풍선뷰
+        markerItem1.setCalloutTitle(parkingName);
+        markerItem1.setCalloutSubTitle( curParking + "/" + capacity);
+        markerItem1.setCalloutLeftImage(bitmap);
+        //markerItem1.setCalloutRightButtonImage(bitmap);
+        //markerItem1.setEnableClustering(true);
+
+
         // 변경점
+
 
 
         //tMapView setting
         tMapView = new TMapView(this);
         tMapView.setSKTMapApiKey( tApiKey );
         tMapView.setZoomLevel(16);
+        tMapView.setLocationPoint(lng, lat);
+        //add mark  maps
+        //tMapView.addMarkerItem("markerItem1", markerItem1); // 지도에 마커 추가
 
         linearLayoutTmap.addView( tMapView );
-
-        Button btn_1 = (Button) findViewById(R.id.btn_1);
-        Button btn_2 = (Button) findViewById(R.id.btn_2);
-        Button btn_3 = (Button) findViewById(R.id.btn_3);
-
-        btn_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Page1Activity.class);
-                startActivity(intent);
-            }
-        });
-
-        btn_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Page2Activity.class);
-                startActivity(intent);
-            }
-        });
-
-        btn_3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Page3Activity.class);
-                startActivity(intent);
-            }
-        });
 
     }
 
