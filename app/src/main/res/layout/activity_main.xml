@@ -131,7 +131,8 @@
                             android:layout_marginTop="8dp"
                             android:text="Add"
                             android:textAlignment="center"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            tools:ignore="DuplicateIds" />
 
                     </LinearLayout>
 
@@ -257,6 +258,7 @@
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -268,27 +270,39 @@
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent" >
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="bottom"
-            android:backgroundTint="#37386e"
+            app:fabCradleMargin="10dp"
             android:id="@+id/app_bar"
-            app:fabCradleMargin="8dp"
-            app:fabCradleRoundedCornerRadius="50dp"
-            app:fabCradleVerticalOffset="6dp">
+            android:backgroundTint="@color/menu_tint"
 
+            app:fabCradleRoundedCornerRadius="50dp"
+            app:fabCradleVerticalOffset="6dp"
+            >
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/bottomNavigationView"
+                app:itemIconTint="@color/bnv_tab_item_foreground"
+                app:itemTextColor="@color/bnv_tab_item_foreground"
+                android:layout_marginRight="16dp"
+                app:menu="@menu/bottom_nav_menu"
+                android:background="@drawable/transparent_background" />
         </com.google.android.material.bottomappbar.BottomAppBar>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Floating"
-                app:layout_anchor="@id/app_bar"
-                app:maxImageSize="30dp"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fab"
+            style="@style/Floating"
+            app:layout_anchor="@id/app_bar"
+            app:maxImageSize="30dp"
+            />
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

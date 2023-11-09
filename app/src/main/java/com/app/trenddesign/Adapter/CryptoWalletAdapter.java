@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trenddesign.Activity.Domain.CryptoWallet;
 import com.app.trenddesign.R;
+import com.bumptech.glide.Glide;
 import com.majorik.sparklinelibrary.SparkLineLayout;
 
 import java.text.DecimalFormat;
@@ -35,20 +36,29 @@ public class CryptoWalletAdapter extends RecyclerView.Adapter<CryptoWalletAdapte
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         holder.cryptoNameTxt.setText(cryptoWallets.get(position).getCryptoName());
-        holder.cryptoPriceTxt.setText(formatter.format(cryptoWallets.get(position).getCryptoPrice()));
+        holder.cryptoPriceTxt.setText("$"+formatter.format(cryptoWallets.get(position).getCryptoPrice()));
         holder.changePercentTxt.setText(cryptoWallets.get(position).getChangePercent()+"%");
         holder.propertySizeTxt.setText(cryptoWallets.get(position).getPropertySize()+cryptoWallets.get(position).getCryptoSymbol());
         holder.propertyAmountTxt.setText("$"+cryptoWallets.get(position).getPropertyAmount());
+        holder.lineChart.setData(cryptoWallets.get(position).getLineData());
 
         if(cryptoWallets.get(position).getChangePercent()>0){
             holder.changePercentTxt.setTextColor(Color.parseColor("#12c737"));
+            holder.lineChart.setSparkLineColor(Color.parseColor("#12c737"));
         }else if (cryptoWallets.get(position).getChangePercent()<0){
             holder.changePercentTxt.setTextColor(Color.parseColor("#fc0000"));
+            holder.lineChart.setSparkLineColor(Color.parseColor("#fc0000"));
         }else{
             holder.changePercentTxt.setTextColor(Color.parseColor("#ffffff"));
+            holder.lineChart.setSparkLineColor(Color.parseColor("#ffffff"));
         }
 
-        holder.lineChart.setData(cryptoWallets.get(position).getLineData());
+        int drawableResourceID=holder.itemView.getContext().getResources()
+                .getIdentifier(cryptoWallets.get(position).getCryptoName(), "drawable", holder.itemView.getContext().getPackageName());
+
+        Glide.with(holder.itemView.getContext())
+                .load(drawableResourceID)
+                .into(holder.logoCrypto);
     }
 
     @Override
