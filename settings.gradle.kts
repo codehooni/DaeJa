@@ -1,11 +1,10 @@
 pluginManagement {
     repositories {
         google()
-        jcenter()
         mavenCentral()
+        jcenter()
         gradlePluginPortal()
 
-        maven { setUrl("https://jitpack.io") }
     }
 }
 dependencyResolutionManagement {
@@ -14,10 +13,9 @@ dependencyResolutionManagement {
         google()
         jcenter()
         mavenCentral()
-        maven { setUrl("https://jitpack.io") }
     }
 }
 
-rootProject.name = "TrendDesign"
+rootProject.name = "DaeJa"
 include(":app")
  

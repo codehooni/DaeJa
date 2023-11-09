@@ -17,19 +17,21 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="265dp"
+        android:layout_height="300dp"
         android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/credit" />
+        app:srcCompat="@drawable/ic_intro_map" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="THE FUTURE"
+        android:layout_marginTop="48dp"
+        android:text="AT A GLANCE"
         android:textColor="#ffffff"
         android:textSize="41sp"
         android:textStyle="bold"
@@ -43,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_marginTop="24dp"
-        android:text="Learn more about cryptocurrencies\nlook to the future"
+        android:text="Find the best parking spot at a glance!"
         android:textAlignment="center"
         android:textColor="#ffffff"
         android:textSize="20sp"

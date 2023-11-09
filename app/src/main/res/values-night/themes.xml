@@ -7,8 +7,8 @@
 
     <style name="Theme.Fab_Bottom_app_bar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/crypto_main</item>
-        <item name="colorPrimaryVariant">@color/crypto_main</item>
+        <item name="colorPrimary">@color/daeja_main</item>
+        <item name="colorPrimaryVariant">@color/daeja_main</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>

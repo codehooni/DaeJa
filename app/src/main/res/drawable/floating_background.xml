@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/daeja_main" />
 <item>
     <shape android:shape="oval">
         <gradient android:angle="45"
@@ -8,7 +9,7 @@
     </shape>
 </item>
     <item
-        android:drawable="@drawable/float_icon"
+        android:drawable="@drawable/ic_parking"
         android:top="15dp"
         android:right="15dp"
         android:left="15dp"
