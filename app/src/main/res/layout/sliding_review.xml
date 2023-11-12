@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_panel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.MainActivity"
+    android:gravity="bottom"
+    android:background="#00FFFFFF"
+    app:umanoDragView="@id/drawer"
+    app:umanoPaneLHeight="125dp"
+    app:umanooverlay="true"
+    app:umanoShadowHeight="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <fragment
+            android:id="@+id/fragment_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <Button
+            android:Dagroudrawable="/button_list_background"
+            android:text="Hello"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toTop0f="parent"
+            app:layout_constraintRight_toRight0f="parent"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="40dp"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:background="@color/daeja_main"
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:orientation="vertical"/>
+        <View
+            android:id="@+id/swipe"
+            android:background="@color/daeja_sub"
+            android:layout_width="60dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_horizontal"/>
+
+
+
+
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

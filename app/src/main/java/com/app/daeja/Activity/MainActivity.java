@@ -1,26 +1,25 @@
 package com.app.daeja.Activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
-import com.app.daeja.Fragment.SearchFragment;
-import com.app.daeja.Fragment.HomeFragment;
 import com.app.daeja.Fragment.HistroyFragment;
+import com.app.daeja.Fragment.HomeFragment;
+import com.app.daeja.Fragment.SearchFragment;
 import com.app.daeja.Fragment.SettingsFragment;
 import com.app.daeja.R;
 import com.app.daeja.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private FloatingActionButton fab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +44,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, RecomendActivity.class));
-            }
-        });
+        fab.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RecomendActivity.class)));
+
 
 
     }
@@ -62,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
     }
+
 
 
 }

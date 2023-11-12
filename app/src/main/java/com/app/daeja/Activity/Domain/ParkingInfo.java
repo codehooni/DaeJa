@@ -3,20 +3,68 @@ package com.app.daeja.Activity.Domain;
 import java.util.ArrayList;
 
 public class ParkingInfo {
+    private Integer parkingId;
+    private String parkingCodeTxt;
     private String parkingNameTxt;
     private String parkingStateTxt;
     private Integer totalParking;
     private Integer currentParking;
     private String parkingPriceTxt;
+    private Double latitude;
+    private Double longitude;
     private ArrayList<Integer> lineData;
 
-    public ParkingInfo(String parkingNameTxt, String parkingStateTxt, Integer totalParking, Integer currentParking, String parkingPriceTxt, ArrayList<Integer> lineData) {
+    public ParkingInfo(int parkingId, String parkingCodeTxt, String parkingNameTxt, String parkingStateTxt, Integer totalParking, Integer currentParking, String parkingPriceTxt, Double latitude, Double longitude, ArrayList<Integer> lineData) {
+        this.parkingId = parkingId;
+        this.parkingCodeTxt = parkingCodeTxt;
         this.parkingNameTxt = parkingNameTxt;
         this.parkingStateTxt = parkingStateTxt;
         this.totalParking = totalParking;
         this.currentParking = currentParking;
         this.parkingPriceTxt = parkingPriceTxt;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.lineData = lineData;
+    }
+
+    public Integer getId() {
+        return parkingId;
+    }
+
+    public Integer getParkingId() {
+        return parkingId;
+    }
+
+    public void setParkingId(Integer parkingId) {
+        this.parkingId = parkingId;
+    }
+
+    public String getParkingCodeTxt() {
+        return parkingCodeTxt;
+    }
+
+    public void setParkingCodeTxt(String parkingCodeTxt) {
+        this.parkingCodeTxt = parkingCodeTxt;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setId(Integer parkingId){
+        this.parkingId = parkingId;
     }
 
     public String getParkingNameTxt() {
