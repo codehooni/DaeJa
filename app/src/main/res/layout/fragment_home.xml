@@ -10,10 +10,28 @@
     <LinearLayout
         android:id="@+id/linearLayoutTmap"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="10dp"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:text="정보 가져오기"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="텍스트 보이기"
+        android:textColor="@color/white"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/hello"

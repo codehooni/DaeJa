@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RecomendActivity.class)));
 
 
-
     }
 
     private void replaceFragment(Fragment fragment){

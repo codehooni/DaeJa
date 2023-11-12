@@ -70,10 +70,10 @@ public class RecomendActivity extends AppCompatActivity {
         lineData3.add(1000);
         lineData3.add(1150);
 
-        parkingInfoArrayList.add(new ParkingInfo(23, "1234124","서울시 공영", "주차 잔여공간 많음", 80, 10, "150원/5분", 234.234, 4234.345, lineData));
-        parkingInfoArrayList.add(new ParkingInfo(12, "1234124", "구로디지털단지역", "주차 잔여공간 적음", 20, 20, "1000원/1시간",345.3534,345.3456, lineData2));
-        parkingInfoArrayList.add(new ParkingInfo(1545, "1234124","가짜", "주차 잔여공간 보통", 30, 15, "무료",345.3534,345.3456,  lineData3));
-        parkingInfoArrayList.add(new ParkingInfo(123, "1234124", "가짜", "주차 잔여공간 보통", 30, 15, "무료",345.3534,345.3456,  lineData3));
+//        parkingInfoArrayList.add(new ParkingInfo(23, "1234124","서울시 공영", "주차 잔여공간 많음", 80, 10, "150원/5분", 234.234, 4234.345, lineData));
+//        parkingInfoArrayList.add(new ParkingInfo(12, "1234124", "구로디지털단지역", "주차 잔여공간 적음", 20, 20, "1000원/1시간",345.3534,345.3456, lineData2));
+//        parkingInfoArrayList.add(new ParkingInfo(1545, "1234124","가짜", "주차 잔여공간 보통", 30, 15, "무료",345.3534,345.3456,  lineData3));
+//        parkingInfoArrayList.add(new ParkingInfo(123, "1234124", "가짜", "주차 잔여공간 보통", 30, 15, "무료",345.3534,345.3456,  lineData3));
 
         adapter = new ParkingInfoAdapter(parkingInfoArrayList);
         recyclerView.setAdapter(adapter);

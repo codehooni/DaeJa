@@ -12,7 +12,20 @@ public class ParkingInfo {
     private String parkingPriceTxt;
     private Double latitude;
     private Double longitude;
-    private ArrayList<Integer> lineData;
+    //private ArrayList<Integer> lineData;
+
+    public ParkingInfo() {
+        this.parkingId = 0;
+        this.parkingCodeTxt = "";
+        this.parkingNameTxt = "";
+        this.parkingStateTxt = "";
+        this.totalParking = 0;
+        this.currentParking = 0;
+        this.parkingPriceTxt = "";
+        this.latitude = 0.0;
+        this.longitude = 0.0;
+        //this.lineData = null;
+    }
 
     public ParkingInfo(int parkingId, String parkingCodeTxt, String parkingNameTxt, String parkingStateTxt, Integer totalParking, Integer currentParking, String parkingPriceTxt, Double latitude, Double longitude, ArrayList<Integer> lineData) {
         this.parkingId = parkingId;
@@ -24,7 +37,7 @@ public class ParkingInfo {
         this.parkingPriceTxt = parkingPriceTxt;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.lineData = lineData;
+        //this.lineData = lineData;
     }
 
     public Integer getId() {
@@ -108,11 +121,11 @@ public class ParkingInfo {
         this.parkingPriceTxt = parkingPriceTxt;
     }
 
-    public ArrayList<Integer> getLineData() {
-        return lineData;
-    }
-
-    public void setLineData(ArrayList<Integer> lineData) {
-        this.lineData = lineData;
-    }
+//    public ArrayList<Integer> getLineData() {
+//        return lineData;
+//    }
+//
+//    public void setLineData(ArrayList<Integer> lineData) {
+//        this.lineData = lineData;
+//    }
 }
