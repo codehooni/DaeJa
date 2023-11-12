@@ -12,6 +12,7 @@ public class ParkingInfo {
     private String parkingPriceTxt;
     private Double latitude;
     private Double longitude;
+    private String rgb;
     //private ArrayList<Integer> lineData;
 
     public ParkingInfo() {
@@ -24,10 +25,19 @@ public class ParkingInfo {
         this.parkingPriceTxt = "";
         this.latitude = 0.0;
         this.longitude = 0.0;
+        this.rgb = "";
         //this.lineData = null;
     }
 
-    public ParkingInfo(int parkingId, String parkingCodeTxt, String parkingNameTxt, String parkingStateTxt, Integer totalParking, Integer currentParking, String parkingPriceTxt, Double latitude, Double longitude, ArrayList<Integer> lineData) {
+    public String getRgb() {
+        return rgb;
+    }
+
+    public void setRgb(String rgb) {
+        this.rgb = rgb;
+    }
+
+    public ParkingInfo(int parkingId, String parkingCodeTxt, String parkingNameTxt, String parkingStateTxt, Integer totalParking, Integer currentParking, String parkingPriceTxt, Double latitude, Double longitude, ArrayList<Integer> lineData, String rgb) {
         this.parkingId = parkingId;
         this.parkingCodeTxt = parkingCodeTxt;
         this.parkingNameTxt = parkingNameTxt;
@@ -38,6 +48,7 @@ public class ParkingInfo {
         this.latitude = latitude;
         this.longitude = longitude;
         //this.lineData = lineData;
+        this.rgb = rgb;
     }
 
     public Integer getId() {
