@@ -45,15 +45,67 @@
         android:orientation="vertical"/>
         <View
             android:id="@+id/swipe"
-            android:background="@color/daeja_sub"
+            android:background="@color/daeja_main"
             android:layout_width="60dp"
             android:layout_height="5dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal"/>
 
+    <RelativeLayout
+        android:background="@color/daeja_main"
+        android:layout_width="match_parent"
+        android:layout_height="600dp">
+        <EditText
+            android:id="@+id/et_placeName"
+            android:background="@color/daja_main"
+            android:hint="그곳은 어떤 장소인가요?"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:padding="10dp" />
+        <EditText
+            android:id="@+id/et_placeFeel"
+            android:background="@color/daja_main"
+            android:layout_below="@id/et_placeName"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:hint="그곳에서의 추억을 적어주세요"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layoutmarginRight="30dp"
+            android:layoutmarginBottom="10dp"
+            android:padding="10dp"/>
+        <GridView
+            android:id="@+id/gv_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_placeFeel"
+            android:layout_alignLeft="@id/et_placeFeel"
+            android:layout_alignRight="@id/et_placeFeel"
+            android:horizontalSpacing="5dp"
+            android:verticalSpacing="10dp"
+            android:numColumns="4"/>
+        <Button
+            android:id="@+id/btn_stamp"
+            android:background="@color/daeja_main"
+            android:text="¥77"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/colorWhite"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/gv_image"
+            android:layout_marginTop="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="60dp" />
 
 
+    </RelativeLayout>
+    </LinearLayout>
 
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
