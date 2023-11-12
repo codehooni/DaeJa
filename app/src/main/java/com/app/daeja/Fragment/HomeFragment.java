@@ -1,5 +1,6 @@
 package com.app.daeja.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -54,6 +55,10 @@ public class HomeFragment extends Fragment {
     private TMapView tMapView;
     private static final String tApiKey = "KbtV6K1LiCa2kYZ2ieDhU3pxBBS5A5gA5CL5O3el";
 
+    //util
+    Button btn;
+
+    @SuppressLint("CutPasteId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,44 +66,45 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         ct = container.getContext();
 
+        textview = view.findViewById(R.id.hello);
+
         //tmapview
         linearLayoutTmap = (LinearLayout) view.findViewById(R.id.linearLayoutTmap);
 
         tMapView = new TMapView(ct);
         tMapView.setSKTMapApiKey(tApiKey);
-        tMapView.setZoomLevel(16);
+        tMapView.setZoomLevel(13);
         tMapView.setIconVisibility(true);
         tMapView.setMapType(tMapView.MAPTYPE_STANDARD);
         tMapView.setLocationPoint(127.1276, 37.32335);
 
-        lineData = new ArrayList<>();
-        lineData.add(1000);
-        lineData.add(1100);
-        lineData.add(1200);
-        lineData.add(1100);
+//        lineData = new ArrayList<>();
+//        lineData.add(1000);
+//        lineData.add(1100);
+//        lineData.add(1200);
+//        lineData.add(1100);
 
         //server
         //Create Thread
-        isThread = true;
+//        isThread = true;
 //        thread = new Thread(){
 //            public void run(){
-//                while(!isThread){
+//                while(isThread){
 //                    try {
 //                        sleep(10000);
 //                    } catch (InterruptedException e) {
 //                        throw new RuntimeException(e);
 //                    }
-//                    handler.sendEmptyMessage(0);
-//
+//                    //handler.sendEmptyMessage(0);
+//                    Toast.makeText(ct, "receive by server", Toast.LENGTH_SHORT).show();
 //                    //callServer();
 //                }
 //            }
 //        };
 //        thread.start();
+        //callServer();
 
-        callServer();
-
-        Button btn = (Button) view.findViewById(R.id.btn);
+        btn = view.findViewById(R.id.btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,10 +112,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Button btn2 = (Button) view.findViewById(R.id.btn);
+        Button btn2 = (Button) view.findViewById(R.id.btn2);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 TMapMarkerItem tMapMarkerItem = new TMapMarkerItem();
                 TMapPoint tMapPoint = new TMapPoint((double)parkingInfos.get(0).getLatitude(), (double)parkingInfos.get(0).getLongitude());
                 String markerId;
@@ -171,8 +178,6 @@ public class HomeFragment extends Fragment {
 
 
     private void callServer() {
-        textview = view.findViewById(R.id.hello);
-
         parkingInfos = new ArrayList<>();
 
         call = retrofit.getApiService().test_api_get_all();
@@ -186,15 +191,6 @@ public class HomeFragment extends Fragment {
                 for (TestDomain result : resultList) {
                     parkingInfo = new ParkingInfo();
 
-                    strBuilder.append(result.getId()).append("\n")
-                            .append(result.getParkingCode()).append("\n")
-                            .append(result.getParkingName()).append("\n")
-                            .append(result.getCapacity()).append("\n")
-                            .append(result.getCurParking()).append("\n")
-                            .append(result.getLat()).append("\n")
-                            .append(result.getLng()).append("\n")
-                            .append(result.getColor()).append("\n\n");
-
                     parkingInfo.setParkingId(Integer.parseInt(result.getId()));
                     parkingInfo.setParkingCodeTxt(result.getParkingCode());
                     parkingInfo.setParkingNameTxt(result.getParkingName());
@@ -207,9 +203,13 @@ public class HomeFragment extends Fragment {
                     //parkingInfo.setLineData(lineData);
 
                     parkingInfos.add(parkingInfo);
+
                 }
 
-                //textview.setText(parkingInfos.get(0).getParkingId());
+                for (int i = 0; i < parkingInfos.size(); i++) {
+                    strBuilder.append(parkingInfos.get(i).getId()).append("\n\n");
+                }
+
                 textview.setText(strBuilder.toString());
             }
 
