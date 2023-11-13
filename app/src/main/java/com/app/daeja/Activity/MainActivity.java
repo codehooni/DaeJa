@@ -44,7 +44,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RecomendActivity.class)));
+        Intent intent = new Intent(MainActivity.this, RecomendActivity.class);
+        intent.putExtra("LAT", 37.4849732);
+        intent.putExtra("LNG", 126.9012370);
+        fab.setOnClickListener(v -> startActivity(intent));
 
 
     }

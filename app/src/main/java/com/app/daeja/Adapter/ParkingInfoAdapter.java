@@ -34,29 +34,20 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        holder.parkingNameTxt.setText(parkingInfos.get(position).getParkingNameTxt());
-        holder.parkingStateTxt.setText(parkingInfos.get(position).getParkingStateTxt());
-        //holder.cryptoPriceTxt.setText("$"+formatter.format(parkingInfos.get(position).getCryptoPrice()));
-        holder.changePercentTxt.setText(formatter.format(parkingInfos.get(position).getCurrentParking())+ " / " +
-                formatter.format(parkingInfos.get(position).getTotalParking()));
-        //holder.propertySizeTxt.setText(parkingInfos.get(position).getPropertySize()+parkingInfos.get(position).getCryptoSymbol());
-        //holder.propertyAmountTxt.setText("$"+parkingInfos.get(position).getPropertyAmount());
-        //holder.lineChart.setData(parkingInfos.get(position).getLineData());
-        double cur_par = Double.parseDouble(formatter.format(parkingInfos.get(position).getCurrentParking()));
-        double tat_par = Double.parseDouble(formatter.format(parkingInfos.get(position).getTotalParking()));
-        double congestion = cur_par/tat_par;
+        holder.parkingNameTxt.setText(parkingInfos.get(position).getPARKING_NAME());
+        holder.parkingStateTxt.setText("주차 잔여공간 " + parkingInfos.get(position).get주차혼잡도());
+        holder.changePercentTxt.setText(formatter.format(parkingInfos.get(position).get현재_주차_차량수())+ " / " +
+                formatter.format(parkingInfos.get(position).get총_주차면()));
+        holder.parkingPriceTxt.setText(parkingInfos.get(position).get기본_주차_요금() + "원/" + parkingInfos.get(position).get기본_주차_시간_분_단위() + "분");
         String str_cng;
-        if(congestion<0.3){
+        if(parkingInfos.get(position).get주차혼잡도().equals("많음")){
             holder.changePercentTxt.setTextColor(Color.parseColor("#97B9AD"));
-            holder.parkingStateTxt.setText("주차 잔여공간 많음");
             str_cng = "ic_green";
-        }else if (congestion<0.6){
+        }else if (parkingInfos.get(position).get주차혼잡도().equals("보통")){
             holder.changePercentTxt.setTextColor(Color.parseColor("#FFF7E682"));
-            holder.parkingStateTxt.setText("주차 잔여공간 보통");
             str_cng = "ic_yellow";
-        }else{
+        }else{ //적음
             holder.changePercentTxt.setTextColor(Color.parseColor("#FFD65745"));
-            holder.parkingStateTxt.setText("주차 잔여공간 적음");
             str_cng = "ic_red";
         }
 
@@ -65,7 +56,7 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
 
         Glide.with(holder.itemView.getContext())
                 .load(drawableResourceID)
-                .into(holder.logoCrypto);
+                .into(holder.pinImg);
     }
 
     @Override
@@ -76,7 +67,7 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
     public class Viewholder extends RecyclerView.ViewHolder{
 
         TextView parkingNameTxt, parkingStateTxt, changePercentTxt, parkingPriceTxt;
-        ImageView logoCrypto;
+        ImageView pinImg;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -84,7 +75,7 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
             parkingStateTxt = itemView.findViewById(R.id.parkingStateTxt);
             changePercentTxt = itemView.findViewById(R.id.changePercentTxt);
             parkingPriceTxt = itemView.findViewById(R.id.parkingPriceTxt);
-            logoCrypto = itemView.findViewById(R.id.logoImg);
+            pinImg = itemView.findViewById(R.id.pinImg);
         }
     }
 }

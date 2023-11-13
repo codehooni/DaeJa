@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.daeja.Activity.Domain.ParkingInfo;
 import com.app.daeja.Adapter.ParkingInfoAdapter;
-import com.app.daeja.Network.retrofit;
 import com.app.daeja.R;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
@@ -21,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RecomendActivity extends AppCompatActivity {
 
@@ -32,8 +29,10 @@ public class RecomendActivity extends AppCompatActivity {
     protected RecyclerView.Adapter adapter;
     private RecyclerView recyclerView;
     private LinearLayout linearLayoutTmap;
-    List<ParkingInfo> parkingInfos;
-    TMapView tMapView;
+    private List<ParkingInfo> parkingInfos;
+    private TMapView tMapView;
+    private double cur_lat = 37.4849732;
+    private double cur_lng = 126.9012370;
     private static final String tApiKey = "KbtV6K1LiCa2kYZ2ieDhU3pxBBS5A5gA5CL5O3el";
 
     @Override
@@ -45,16 +44,14 @@ public class RecomendActivity extends AppCompatActivity {
 
         callServer();
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
         tMapView.removeAllMarkerItem();
         pointPin();
-
+        tMapView.setLocationPoint(37.48395, 126.9010);
         recyclerVieParking();
-
     }
 
     private void pointPin() {
@@ -95,21 +92,23 @@ public class RecomendActivity extends AppCompatActivity {
 
     private void callServer() {
         parkingInfos = new ArrayList<>();
-
-        call = retrofit.getApiService().staticFindNearbyLocations();
-        call.enqueue(new Callback<List<ParkingInfo>>() {
-            @Override
-            public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
-                List<ParkingInfo> resultList = response.body();
-                for (ParkingInfo parkingInfo : resultList) {
-                    parkingInfos.add(parkingInfo);
-                }
-            }
-            @Override
-            public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
-                // 오류 처리
-            }
-        });
+        parkingInfos.add(new ParkingInfo(1, "구로디지털 단지역", "주소입니다.", "노상주차장", "시간제 주차장", "TEL:010", true, 180, 90, "업데이트 시간", "유료", "야간 무료개방", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 0, 1500, 60, 100, "60", 60000, 37.48497, 126.9012, "", "", false, "보통"));
+        parkingInfos.add(new ParkingInfo(2, "올리브 모텔", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 34, 34, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, 10000, 5, 1000, "60", 60000, 37.48395, 126.9010, "", "", false, "적음"));
+        parkingInfos.add(new ParkingInfo(3, "나이스파크 주차장", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 60, 10, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, 2000, 60, 150, "60", 60000, 37.48578, 126.9017, "", "", false, "많음"));
+//        call = retrofit.getApiService().staticFindNearbyLocations();
+//        call.enqueue(new Callback<List<ParkingInfo>>() {
+//            @Override
+//            public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
+//                List<ParkingInfo> resultList = response.body();
+//                for (ParkingInfo parkingInfo : resultList) {
+//                    parkingInfos.add(parkingInfo);
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
+//                // 오류 처리
+//            }
+//        });
     };
 
     private void tMapViewInit() {
@@ -120,7 +119,8 @@ public class RecomendActivity extends AppCompatActivity {
         tMapView.setZoomLevel(16);
         tMapView.setIconVisibility(true);
         tMapView.setMapType(tMapView.MAPTYPE_STANDARD);
-        tMapView.setLocationPoint(127.1276, 37.32335);
+        tMapView.setLocationPoint(cur_lng, cur_lat);
+        tMapView.setCenterPoint(cur_lng, cur_lat);
 
         linearLayoutTmap.addView(tMapView);
     }
@@ -133,7 +133,7 @@ public class RecomendActivity extends AppCompatActivity {
         ArrayList<ParkingInfo> parkingInfoArrayList = new ArrayList<>();
 
         for(int i = 0; i < parkingInfos.size(); i++) {
-            parkingInfoArrayList.add(parkingInfos.get(0));
+            parkingInfoArrayList.add(parkingInfos.get(i));
         }
 
         adapter = new ParkingInfoAdapter(parkingInfoArrayList);
