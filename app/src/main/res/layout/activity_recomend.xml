@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/daeja_main"
+    android:orientation="vertical"
     tools:context=".Activity.RecomendActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_margin="16dp"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical" />
 
         <TextView
             android:id="@+id/textView14"
@@ -61,7 +61,6 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>

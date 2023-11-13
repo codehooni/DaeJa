@@ -1,70 +1,27 @@
 package com.app.daeja.Activity.Domain;
 
-import java.util.ArrayList;
-
 public class History {
-    private String parkingNameTxt;
-    private String parkingStateTxt;
-    private Integer totalParking;
-    private Integer currentParking;
-    private String parkingPriceTxt;
-    private ArrayList<Integer> lineData;
+    private String startPointTxt;
+    private String destinationPointTxt;
 
-    public History(String parkingNameTxt, String parkingStateTxt, Integer totalParking, Integer currentParking, String parkingPriceTxt, ArrayList<Integer> lineData) {
-        this.parkingNameTxt = parkingNameTxt;
-        this.parkingStateTxt = parkingStateTxt;
-        this.totalParking = totalParking;
-        this.currentParking = currentParking;
-        this.parkingPriceTxt = parkingPriceTxt;
-        this.lineData = lineData;
+    public String getStartPointTxt() {
+        return startPointTxt;
     }
 
-    public String getParkingNameTxt() {
-
-        return parkingNameTxt;
+    public void setStartPointTxt(String startPointTxt) {
+        this.startPointTxt = startPointTxt;
     }
 
-    public void setParkingNameTxt(String parkingNameTxt) {
-        this.parkingNameTxt = parkingNameTxt;
+    public String getDestinationPointTxt() {
+        return destinationPointTxt;
     }
 
-    public String getParkingStateTxt() {
-        return parkingStateTxt;
+    public void setDestinationPointTxt(String destinationPointTxt) {
+        this.destinationPointTxt = destinationPointTxt;
     }
 
-    public void setParkingStateTxt(String parkingStateTxt) {
-        this.parkingStateTxt = parkingStateTxt;
-    }
-
-    public Integer getTotalParking() {
-        return totalParking;
-    }
-
-    public void setTotalParking(Integer totalParking) {
-        this.totalParking = totalParking;
-    }
-
-    public Integer getCurrentParking() {
-        return currentParking;
-    }
-
-    public void setCurrentParking(Integer currentParking) {
-        this.currentParking = currentParking;
-    }
-
-    public String getParkingPriceTxt() {
-        return parkingPriceTxt;
-    }
-
-    public void setParkingPriceTxt(String parkingPriceTxt) {
-        this.parkingPriceTxt = parkingPriceTxt;
-    }
-
-    public ArrayList<Integer> getLineData() {
-        return lineData;
-    }
-
-    public void setLineData(ArrayList<Integer> lineData) {
-        this.lineData = lineData;
+    public History(String startPointTxt, String destinationPointTxt) {
+        this.startPointTxt = startPointTxt;
+        this.destinationPointTxt = destinationPointTxt;
     }
 }
