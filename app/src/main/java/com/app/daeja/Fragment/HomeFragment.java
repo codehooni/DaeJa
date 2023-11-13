@@ -1,23 +1,35 @@
 package com.app.daeja.Fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.app.daeja.Activity.Domain.ParkingInfo;
+import com.app.daeja.Network.retrofit;
 import com.app.daeja.R;
-import com.app.daeja.Thread.CallAndPointThread;
+import com.skt.Tmap.TMapMarkerItem;
+import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
@@ -25,7 +37,9 @@ public class HomeFragment extends Fragment {
     private Context ct;
 
     //for server
-    CallAndPointThread thread;
+    Thread thread;
+    boolean isThread;
+    Call<List<ParkingInfo>> call;
     List<ParkingInfo> parkingInfos;
 
     //for tmap
@@ -48,11 +62,99 @@ public class HomeFragment extends Fragment {
         TMapViewInit();
 
         //thread
-        thread = new CallAndPointThread("쓰래드 클래스 사용", ct, parkingInfos, tMapView);
-        thread.start();
+        btn = view.findViewById(R.id.btn);
+        btn.setOnClickListener(v -> {
+            //Create Thread
+            isThread = true;
+            thread = new Thread(() -> {
+                while(isThread){
+                    handler.sendEmptyMessage(0);
+                    callServer();
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+            thread.start();
+        });
+
+        btn2 = (Button) view.findViewById(R.id.btn2);
+        btn2.setOnClickListener(v -> {
+            isThread = false;
+            tMapView.removeAllMarkerItem();
+            pointPin();
+        });
+
+        btn3 = view.findViewById(R.id.btn3);
+        btn3.setOnClickListener(v -> tMapView.removeAllMarkerItem());
+
 
         return view;
     }
+
+    private void pointPin() {
+
+        for(int i = 0; i < parkingInfos.size(); i++){
+            TMapMarkerItem tMapMarkerItem = new TMapMarkerItem();
+            TMapPoint tMapPoint = new TMapPoint(parkingInfos.get(i).getLAT(), parkingInfos.get(i).getLNG());
+            String markerId;
+            Bitmap bitmap;
+
+            //marker setting
+            if(parkingInfos.get(i).get주차혼잡도().equals("많음")){
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_green);
+            }else if (parkingInfos.get(i).get주차혼잡도().equals("보통")){
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_yellow);
+            }else if (parkingInfos.get(i).get주차혼잡도().equals("적음")){
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_red);
+            }else{
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_gray);
+            }
+
+            tMapMarkerItem.setIcon(bitmap);
+            tMapMarkerItem.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
+            tMapMarkerItem.setTMapPoint( tMapPoint );
+            tMapMarkerItem.setName(parkingInfos.get(i).getPARKING_NAME()); // 마커의 타이틀 지정
+            tMapMarkerItem.setCanShowCallout(true); // 풍선뷰
+            tMapMarkerItem.setCalloutTitle(parkingInfos.get(i).getPARKING_NAME());
+            tMapMarkerItem.setCalloutSubTitle(parkingInfos.get(i).get현재_주차_차량수() + "/" + parkingInfos.get(i).get총_주차면());
+            tMapMarkerItem.setCalloutLeftImage(bitmap);
+            //tMapMarkerItem.setCalloutRightButtonImage(bitmap);
+            tMapMarkerItem.setEnableClustering(true);
+            markerId = "marker: " + parkingInfos.get(i).getPARKING_NAME();
+
+            //add mark to maps
+            tMapView.addMarkerItem(markerId, tMapMarkerItem);
+        }
+    }
+
+    private void callServer() {
+        parkingInfos = new ArrayList<>();
+
+        call = retrofit.getApiService().test_api_get_all();
+        call.enqueue(new Callback<List<ParkingInfo>>() {
+            @Override
+            public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
+                List<ParkingInfo> resultList = response.body();
+                for (ParkingInfo parkingInfo : resultList) {
+                    parkingInfos.add(parkingInfo);
+                }
+            }
+            @Override
+            public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
+                // 오류 처리
+            }
+        });
+    };
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            Toast.makeText(ct, "receive by server", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     private void TMapViewInit(){
         linearLayoutTmap = view.findViewById(R.id.linearLayoutTmap);
