@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,8 @@ public class RecomendActivity extends AppCompatActivity {
     Thread thread;
     Call<List<ParkingInfo>> call;
 
+    private ImageView img_findPath;
+
     protected RecyclerView.Adapter adapter;
     private RecyclerView recyclerView;
     private LinearLayout linearLayoutTmap;
@@ -49,6 +52,8 @@ public class RecomendActivity extends AppCompatActivity {
     private TMapView tMapView;
     private double cur_lat = 37.5663507;
     private double cur_lng = 126.9851113;
+    private double ex1= 37.322235;
+    private double ex2=127.12765166666667;
     private static final String tApiKey = "KbtV6K1LiCa2kYZ2ieDhU3pxBBS5A5gA5CL5O3el";
 
     @Override
@@ -56,17 +61,19 @@ public class RecomendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recomend);
 
-        //tMapViewInit();
-
         // 위치 권한 확인 및 요청
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
         } else {
             // 권한이 이미 부여되었으면 지도 설정 시작
             tMapViewInit();
+            callServerAsync();
+
         }
 
-        callServer();
+
+
+       /* callServer();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -76,8 +83,29 @@ public class RecomendActivity extends AppCompatActivity {
         pointPin();
         tMapView.setLocationPoint(37.48395, 126.9010);
         recyclerVieParking();
-
+      */
     }
+
+    // callServer() 메서드를 비동기로 실행하는 방법
+    private void callServerAsync() {
+        new Thread(() -> {
+            callServer(); // 네트워크 작업 수행
+            runOnUiThread(() -> {
+                tMapView.removeAllMarkerItem();
+                pointPin();
+                tMapView.setLocationPoint(37.48395, 126.9010);
+                recyclerVieParking();
+            });
+        }).start();
+    }
+
+    // drawPath() 메서드를 비동기로 실행하는 방법
+    public void drawPathAsync(double des_lat, double des_lng) {
+        new Thread(() -> {
+            drawPath(des_lat,des_lng); // 경로 그리기 작업 수행
+        }).start();
+    }
+
 
     private void pointPin() {
 
@@ -138,7 +166,9 @@ public class RecomendActivity extends AppCompatActivity {
 
     private void tMapViewInit() {
         linearLayoutTmap = findViewById(R.id.linearLayoutTmap);
-        drawPath();
+
+        tMapView = new TMapView(this);
+        tMapView.setSKTMapApiKey(tApiKey);
 
         // TMapGpsManager를 사용하여 현재 위치 설정
         tMapGpsManager = new TMapGpsManager(this);
@@ -161,10 +191,17 @@ public class RecomendActivity extends AppCompatActivity {
 
                 cur_lat = location.getLatitude();
                 cur_lng = location.getLongitude();
-                TMapPoint currentLocation = new TMapPoint(cur_lat, cur_lng);
-                tMapView.getMarkerItemFromID("currentLocationMarker").setTMapPoint(currentLocation);
 
+
+                // Null 체크 추가하여 안전하게 호출하기
+                if (tMapView != null && tMapView.getMarkerItemFromID("currentLocationMarker") != null) {
+                    TMapPoint currentLocation = new TMapPoint(cur_lat, cur_lng);
+                    tMapView.getMarkerItemFromID("currentLocationMarker").setTMapPoint(currentLocation);
+                    tMapView.setCenterPoint(cur_lng, cur_lat);
+                }
             }
+
+
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -188,8 +225,6 @@ public class RecomendActivity extends AppCompatActivity {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
         }
 
-        tMapView = new TMapView(this);
-        tMapView.setSKTMapApiKey(tApiKey);
         tMapView.setZoomLevel(16);
         tMapView.setIconVisibility(true);
         tMapView.setMapType(tMapView.MAPTYPE_STANDARD);
@@ -200,9 +235,9 @@ public class RecomendActivity extends AppCompatActivity {
     }
 
     // 경로 찍는 메서드
-    private void drawPath() {
-        TMapPoint Start = new TMapPoint(37.21668666666667, 127.03513166666667); // 울집
-        TMapPoint End = new TMapPoint(37.5663507, 126.9851113); // 목적지   //37.5663507, 126.9851113 서울타워  //37.322235, 127.12765166666667 단국대
+    public void drawPath(double des_lat, double des_lng) {
+        TMapPoint Start = new TMapPoint(cur_lat, cur_lng); // 현재위치
+        TMapPoint End = new TMapPoint(des_lat, des_lng); // 목적지   //37.5663507, 126.9851113 서울타워  //37.322235, 127.12765166666667 단국대
 
         try {
             TMapPolyLine tMapPolyLine = new TMapData().findPathData(Start, End);

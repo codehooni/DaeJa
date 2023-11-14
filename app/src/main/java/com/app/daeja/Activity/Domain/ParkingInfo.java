@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ParkingInfo {
+    @SerializedName("ID")
+    @Expose
+    Integer ID;
     @SerializedName("PARKING_CODE")
     @Expose
     Integer PARKING_CODE;

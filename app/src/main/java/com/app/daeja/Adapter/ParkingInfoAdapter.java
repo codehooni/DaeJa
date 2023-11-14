@@ -57,6 +57,10 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
         Glide.with(holder.itemView.getContext())
                 .load(drawableResourceID)
                 .into(holder.pinImg);
+
+//        holder.img_findPath.setOnClickListener(v ->
+//                //drawPathAsync(37.322235, 127.12765166666667) //tmap까지 static으로 해서 그런듯 ㄴㄴ 객체가 없으니까 업데이트가 안 되는 느낌? 나도 잘은 몰라
+//                );
     }
 
     @Override
@@ -67,7 +71,7 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
     public class Viewholder extends RecyclerView.ViewHolder{
 
         TextView parkingNameTxt, parkingStateTxt, changePercentTxt, parkingPriceTxt;
-        ImageView pinImg;
+        ImageView pinImg, img_findPath;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +80,7 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
             changePercentTxt = itemView.findViewById(R.id.changePercentTxt);
             parkingPriceTxt = itemView.findViewById(R.id.parkingPriceTxt);
             pinImg = itemView.findViewById(R.id.pinImg);
+            img_findPath = itemView.findViewById(R.id.img_findPath);
         }
     }
 }
