@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.daeja.Activity.Domain.ParkingInfo;
+import com.app.daeja.Activity.RecomendActivity;
 import com.app.daeja.R;
 import com.bumptech.glide.Glide;
 
@@ -20,9 +21,12 @@ import java.util.ArrayList;
 public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.Viewholder> {
     ArrayList<ParkingInfo> parkingInfos;
     DecimalFormat formatter;
+    private RecomendActivity recomendActivity;
 
-    public ParkingInfoAdapter(ArrayList<ParkingInfo> parkingInfos){
+
+    public ParkingInfoAdapter(ArrayList<ParkingInfo> parkingInfos, RecomendActivity recomendActivity){
         this.parkingInfos = parkingInfos;
+        this.recomendActivity = recomendActivity;
         formatter= new DecimalFormat("###,###,###,###");
     }
     @NonNull
@@ -58,9 +62,9 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
                 .load(drawableResourceID)
                 .into(holder.pinImg);
 
-//        holder.img_findPath.setOnClickListener(v ->
-//                //drawPathAsync(37.322235, 127.12765166666667) //tmap까지 static으로 해서 그런듯 ㄴㄴ 객체가 없으니까 업데이트가 안 되는 느낌? 나도 잘은 몰라
-//                );
+        holder.img_findPath.setOnClickListener(v ->
+                recomendActivity.drawPathAsync(parkingInfos.get(position).getLAT(), parkingInfos.get(position).getLNG()) //tmap까지 static으로 해서 그런듯 ㄴㄴ 객체가 없으니까 업데이트가 안 되는 느낌? 나도 잘은 몰
+                );
     }
 
     @Override

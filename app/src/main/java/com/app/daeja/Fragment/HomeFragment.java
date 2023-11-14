@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.app.daeja.Activity.Domain.ParkingInfo;
+import com.app.daeja.Network.retrofit;
 import com.app.daeja.R;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
@@ -134,22 +137,22 @@ public class HomeFragment extends Fragment {
 
     private void callServer() {
         parkingInfos = new ArrayList<>();
-        parkingInfos.add(new ParkingInfo(1, "구로디지털 단지역", "주소입니다.", "노외주차장", "시간제 주차장", "TEL:010", true, 180, 90, "업데이트 시간", "유료", "야간 무료개방", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 0, 1500, 60, 100, "60", 60000, 37.48497, 126.9012, "", "", false, "보통"));
+        parkingInfos.add(new ParkingInfo(1, 1, "구로디지털 단지역", "주소입니다.", "노외주차장", "시간제 주차장", "TEL:010", true, 180, 90, "업데이트 시간", "유료", "야간 무료개방", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 0, "1500", "60", "", "60", 60000, 37.48497, 126.9012, "", "", false, "보통"));
 
-/*        call = retrofit.getApiService().test_api_get_all();
+        call = retrofit.getApiService().test_api_get_all();
         call.enqueue(new Callback<List<ParkingInfo>>() {
             @Override
             public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
                 List<ParkingInfo> resultList = response.body();
-                for (ParkingInfo parkingInfo : resultList) {
-                    parkingInfos.add(parkingInfo);
-                }
+//                for (ParkingInfo parkingInfo : resultList) {
+//                    parkingInfos.add(parkingInfo);
+//                }
             }
             @Override
             public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
                 // 오류 처리
             }
-        });*/
+        });
     };
 
     private Handler handler = new Handler(){
