@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ParkingInfo {
+    @SerializedName("ID")
+    @Expose
+    Integer ID;
     @SerializedName("PARKING_CODE")
     @Expose
     Integer PARKING_CODE;
@@ -69,13 +72,13 @@ public class ParkingInfo {
     Integer 월_정기권_금액;
     @SerializedName("RATES")
     @Expose
-    Integer 기본_주차_요금;
+    String 기본_주차_요금;
     @SerializedName("TIME_RATE")
     @Expose
-    Integer 기본_주차_시간_분_단위;
+    String 기본_주차_시간_분_단위;
     @SerializedName("ADD_RATES")
     @Expose
-    Integer 추가_단위_요금;
+    String 추가_단위_요금;
     @SerializedName("ADD_TIME_RATE")
     @Expose
     String 추가_단위_시간_분_단위;
@@ -104,7 +107,8 @@ public class ParkingInfo {
     public ParkingInfo() {
     }
 
-    public ParkingInfo(Integer PARKING_CODE, String PARKING_NAME, String PARKING_ADDR, String 주차장_종류명, String 운영제구분명, String 전화번호, boolean 주차현황_정보_제공여부, Integer 총_주차면, Integer 현재_주차_차량수, String 현재_주차_차량수_업데이트시간, String 유무료구분명, String 야간무료개방여부명, String 평일_운영_시작시각, String 평일_운영_종료시각, String 주말_운영_시작시각, String 주말_운영_종료시각, String 공휴일_운영_시작시각, String 공휴일_운영_종료시각, String 토요일_유무료_구분명, String 공휴일_유무료_구분명, Integer 월_정기권_금액, Integer 기본_주차_요금, Integer 기본_주차_시간_분_단위, Integer 추가_단위_요금, String 추가_단위_시간_분_단위, Integer 일_최대_요금, Double LAT, Double LNG, String 공유_주차장_관리업체명, String 공유_주차장_관리업체_링크, boolean 공유_주차장_여부, String 주차혼잡도) {
+    public ParkingInfo(Integer ID, Integer PARKING_CODE, String PARKING_NAME, String PARKING_ADDR, String 주차장_종류명, String 운영제구분명, String 전화번호, boolean 주차현황_정보_제공여부, Integer 총_주차면, Integer 현재_주차_차량수, String 현재_주차_차량수_업데이트시간, String 유무료구분명, String 야간무료개방여부명, String 평일_운영_시작시각, String 평일_운영_종료시각, String 주말_운영_시작시각, String 주말_운영_종료시각, String 공휴일_운영_시작시각, String 공휴일_운영_종료시각, String 토요일_유무료_구분명, String 공휴일_유무료_구분명, Integer 월_정기권_금액, String 기본_주차_요금, String 기본_주차_시간_분_단위, String 추가_단위_요금, String 추가_단위_시간_분_단위, Integer 일_최대_요금, Double LAT, Double LNG, String 공유_주차장_관리업체명, String 공유_주차장_관리업체_링크, boolean 공유_주차장_여부, String 주차혼잡도) {
+        this.ID = ID;
         this.PARKING_CODE = PARKING_CODE;
         this.PARKING_NAME = PARKING_NAME;
         this.PARKING_ADDR = PARKING_ADDR;
@@ -137,6 +141,14 @@ public class ParkingInfo {
         this.공유_주차장_관리업체_링크 = 공유_주차장_관리업체_링크;
         this.공유_주차장_여부 = 공유_주차장_여부;
         this.주차혼잡도 = 주차혼잡도;
+    }
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
     public Integer getPARKING_CODE() {
@@ -307,27 +319,27 @@ public class ParkingInfo {
         this.월_정기권_금액 = 월_정기권_금액;
     }
 
-    public Integer get기본_주차_요금() {
+    public String get기본_주차_요금() {
         return 기본_주차_요금;
     }
 
-    public void set기본_주차_요금(Integer 기본_주차_요금) {
+    public void set기본_주차_요금(String 기본_주차_요금) {
         this.기본_주차_요금 = 기본_주차_요금;
     }
 
-    public Integer get기본_주차_시간_분_단위() {
+    public String get기본_주차_시간_분_단위() {
         return 기본_주차_시간_분_단위;
     }
 
-    public void set기본_주차_시간_분_단위(Integer 기본_주차_시간_분_단위) {
+    public void set기본_주차_시간_분_단위(String 기본_주차_시간_분_단위) {
         this.기본_주차_시간_분_단위 = 기본_주차_시간_분_단위;
     }
 
-    public Integer get추가_단위_요금() {
+    public String get추가_단위_요금() {
         return 추가_단위_요금;
     }
 
-    public void set추가_단위_요금(Integer 추가_단위_요금) {
+    public void set추가_단위_요금(String 추가_단위_요금) {
         this.추가_단위_요금 = 추가_단위_요금;
     }
 
