@@ -119,7 +119,6 @@ public class HomeFragment extends Fragment {
 
                 searchPOI(poiKeywords);
 
-                pointPin();
             }
         });
 
@@ -142,7 +141,7 @@ public class HomeFragment extends Fragment {
     {
         for( int i = 0; i < Point.size(); i++ )
         {
-            Bitmap bitmapIcon = createMarkerIcon(R.drawable.ic_green);
+            Bitmap bitmapIcon = createMarkerIcon(R.drawable.ic_gray);
 
             TMapMarkerItem tMapMarkerItem = new TMapMarkerItem();
             tMapMarkerItem.setIcon(bitmapIcon);
@@ -150,7 +149,7 @@ public class HomeFragment extends Fragment {
             tMapMarkerItem.setTMapPoint(Point.get(i));
 
             tMapView.addMarkerItem("markerItem" + i, tMapMarkerItem);
-            //setBalloonView(tMapMarkerItem, Name.get(i), Address.get(i));
+            setBalloonView(tMapMarkerItem, Name.get(i), Address.get(i));
 
         }
     }
