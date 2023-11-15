@@ -285,7 +285,7 @@ public class HomeFragment extends Fragment {
             marker.setCalloutTitle(title);
             marker.setCalloutSubTitle(address);
 
-            Bitmap bitmap = createMarkerIcon(R.drawable.ic_green);
+            Bitmap bitmap = createMarkerIcon(R.drawable.ic_gray);
             marker.setCalloutRightButtonImage(bitmap);
         }
     }
