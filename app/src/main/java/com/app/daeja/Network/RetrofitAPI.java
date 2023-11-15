@@ -15,6 +15,9 @@ public interface RetrofitAPI {
     @GET("response")
     Call<List<ParkingInfo>> test_api_get_all();
 
+    @GET("api")
+    Call<List<ParkingInfo>> test_api_get_reset(); //delete db and call api information
+
     @GET("near")
     Call<List<ParkingInfo>> staticFindNearbyLocations();
 }

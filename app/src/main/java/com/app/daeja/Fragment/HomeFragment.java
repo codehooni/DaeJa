@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -20,9 +22,11 @@ import androidx.fragment.app.Fragment;
 import com.app.daeja.Activity.Domain.ParkingInfo;
 import com.app.daeja.Network.retrofit;
 import com.app.daeja.R;
+import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
+import com.skt.Tmap.poi_item.TMapPOIItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +58,9 @@ public class HomeFragment extends Fragment {
     Button btn;
     Button btn2;
     Button btn3;
+    ImageView img_search;
+    EditText search_barEt;
+    String str_search;
 
     @Nullable
     @Override
@@ -71,13 +78,17 @@ public class HomeFragment extends Fragment {
             isThread = true;
             thread = new Thread(() -> {
                 while(isThread){
-                    handler.sendEmptyMessage(0);
                     callServer();
+                    handler.sendEmptyMessage(0);
+                    tMapView.removeAllMarkerItem();
+                    pointPin();
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
+                    handler.sendEmptyMessage(0);
+                    pointPin();
                 }
             });
             thread.start();
@@ -95,24 +106,97 @@ public class HomeFragment extends Fragment {
             tMapView.removeAllMarkerItem();
         });
 
+        img_search = view.findViewById(R.id.img_search);
+        search_barEt = view.findViewById(R.id.search_barEt);
+        img_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                str_search = search_barEt.getText().toString();
+                tMapView.removeAllMarkerItem();
+
+                ArrayList<String> poiKeywords = new ArrayList<>();
+                poiKeywords.add(str_search);
+
+                searchPOI(poiKeywords);
+
+                pointPin();
+            }
+        });
+
+
 
         return view;
+    }
+
+    private Bitmap createMarkerIcon(int image)  // 이미지 크기조정
+    {
+        Bitmap bitmap = BitmapFactory.decodeResource(ct.getApplicationContext().getResources(),
+                image);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 100, 100,false);
+
+        return bitmap;
+    }
+
+    private void setMultiMarkers(ArrayList<TMapPoint> Point, ArrayList<String> Name,
+                                 ArrayList<String> Address)
+    {
+        for( int i = 0; i < Point.size(); i++ )
+        {
+            Bitmap bitmapIcon = createMarkerIcon(R.drawable.ic_green);
+
+            TMapMarkerItem tMapMarkerItem = new TMapMarkerItem();
+            tMapMarkerItem.setIcon(bitmapIcon);
+
+            tMapMarkerItem.setTMapPoint(Point.get(i));
+
+            tMapView.addMarkerItem("markerItem" + i, tMapMarkerItem);
+            //setBalloonView(tMapMarkerItem, Name.get(i), Address.get(i));
+
+        }
+    }
+
+    private void searchPOI(ArrayList<String> arrPOI)
+    {
+        final TMapData tMapData = new TMapData();
+        final ArrayList<TMapPoint> Point = new ArrayList<>();
+        final ArrayList<String> Name = new ArrayList<>();
+        final ArrayList<String> Address = new ArrayList<>();
+
+        for(int i = 0; i < arrPOI.size(); i++ )
+        {
+            tMapData.findTitlePOI(arrPOI.get(i), new TMapData.FindTitlePOIListenerCallback()
+            {
+                @Override
+                public void onFindTitlePOI(ArrayList<TMapPOIItem> arrayList)
+                {
+                    for(int j = 0; j < arrayList.size(); j++ )
+                    {
+                        TMapPOIItem tMapPOIItem = arrayList.get(j);
+                        Point.add(tMapPOIItem.getPOIPoint());
+                        Name.add(tMapPOIItem.getPOIName());
+                        Address.add(tMapPOIItem.upperAddrName + " " +
+                                tMapPOIItem.middleAddrName + " " + tMapPOIItem.lowerAddrName);
+                    }
+                    setMultiMarkers(Point, Name, Address);
+                }
+            });
+        }
     }
 
     private void pointPin() {
 
         for(int i = 0; i < parkingInfos.size(); i++){
             TMapMarkerItem tMapMarkerItem = new TMapMarkerItem();
-            TMapPoint tMapPoint = new TMapPoint(parkingInfos.get(i).getLAT(), parkingInfos.get(i).getLNG());
+            TMapPoint tMapPoint = new TMapPoint(parkingInfos.get(i).getLat(), parkingInfos.get(i).getLng());
             String markerId;
             Bitmap bitmap;
 
             //marker setting
-            if(parkingInfos.get(i).get주차혼잡도().equals("많음")){
+            if(parkingInfos.get(i).getColor().equals("많음")){
                 bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_green);
-            }else if (parkingInfos.get(i).get주차혼잡도().equals("보통")){
+            }else if (parkingInfos.get(i).getColor().equals("보통")){
                 bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_yellow);
-            }else if (parkingInfos.get(i).get주차혼잡도().equals("적음")){
+            }else if (parkingInfos.get(i).getColor().equals("적음")){
                 bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_red);
             }else{
                 bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_gray);
@@ -124,7 +208,7 @@ public class HomeFragment extends Fragment {
             tMapMarkerItem.setName(parkingInfos.get(i).getPARKING_NAME()); // 마커의 타이틀 지정
             tMapMarkerItem.setCanShowCallout(true); // 풍선뷰
             tMapMarkerItem.setCalloutTitle(parkingInfos.get(i).getPARKING_NAME());
-            tMapMarkerItem.setCalloutSubTitle(parkingInfos.get(i).get현재_주차_차량수() + "/" + parkingInfos.get(i).get총_주차면());
+            tMapMarkerItem.setCalloutSubTitle(parkingInfos.get(i).getCur_PARKING() + "/" + parkingInfos.get(i).getCapacity());
             tMapMarkerItem.setCalloutLeftImage(bitmap);
             //tMapMarkerItem.setCalloutRightButtonImage(bitmap);
             tMapMarkerItem.setEnableClustering(true);
@@ -137,16 +221,32 @@ public class HomeFragment extends Fragment {
 
     private void callServer() {
         parkingInfos = new ArrayList<>();
-        parkingInfos.add(new ParkingInfo(1, 1, "구로디지털 단지역", "주소입니다.", "노외주차장", "시간제 주차장", "TEL:010", true, 180, 90, "업데이트 시간", "유료", "야간 무료개방", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 0, "1500", "60", "", "60", 60000, 37.48497, 126.9012, "", "", false, "보통"));
+
+        call = retrofit.getApiService().test_api_get_reset();
+        call.enqueue(new Callback<List<ParkingInfo>>() {
+            @Override
+            public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
+            }
+            @Override
+            public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
+            }
+        });
+        try {
+            Thread.sleep(30000);
+            //Thread.sleep(150000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         call = retrofit.getApiService().test_api_get_all();
         call.enqueue(new Callback<List<ParkingInfo>>() {
             @Override
             public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
                 List<ParkingInfo> resultList = response.body();
-//                for (ParkingInfo parkingInfo : resultList) {
-//                    parkingInfos.add(parkingInfo);
-//                }
+
+                for (ParkingInfo parkingInfo : resultList) {
+                    parkingInfos.add(parkingInfo);
+                }
             }
             @Override
             public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
@@ -167,13 +267,27 @@ public class HomeFragment extends Fragment {
 
         tMapView = new TMapView(ct);
         tMapView.setSKTMapApiKey(tApiKey);
+
         tMapView.setZoomLevel(14);
         tMapView.setIconVisibility(true);
         tMapView.setMapType(tMapView.MAPTYPE_STANDARD);
         tMapView.setLocationPoint(126.9005, 37.48113 );
         tMapView.setCenterPoint(cur_lng, cur_lat);
 
-
         linearLayoutTmap.addView(tMapView);
+    }
+
+    private void setBalloonView(TMapMarkerItem marker, String title, String address)
+    {
+        marker.setCanShowCallout(true);
+
+        if( marker.getCanShowCallout() )
+        {
+            marker.setCalloutTitle(title);
+            marker.setCalloutSubTitle(address);
+
+            Bitmap bitmap = createMarkerIcon(R.drawable.ic_green);
+            marker.setCalloutRightButtonImage(bitmap);
+        }
     }
 }

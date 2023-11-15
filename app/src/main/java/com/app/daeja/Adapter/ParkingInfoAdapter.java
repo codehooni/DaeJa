@@ -39,15 +39,15 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         holder.parkingNameTxt.setText(parkingInfos.get(position).getPARKING_NAME());
-        holder.parkingStateTxt.setText("주차 잔여공간 " + parkingInfos.get(position).get주차혼잡도());
-        holder.changePercentTxt.setText(formatter.format(parkingInfos.get(position).get현재_주차_차량수())+ " / " +
-                formatter.format(parkingInfos.get(position).get총_주차면()));
-        holder.parkingPriceTxt.setText(parkingInfos.get(position).get기본_주차_요금() + "원/" + parkingInfos.get(position).get기본_주차_시간_분_단위() + "분");
+        holder.parkingStateTxt.setText("주차 잔여공간 " + parkingInfos.get(position).getColor());
+        holder.changePercentTxt.setText(formatter.format(parkingInfos.get(position).getCur_PARKING())+ " / " +
+                formatter.format(parkingInfos.get(position).getCapacity()));
+        holder.parkingPriceTxt.setText(parkingInfos.get(position).getRates() + "원/" + parkingInfos.get(position).getTime_RATE() + "분");
         String str_cng;
-        if(parkingInfos.get(position).get주차혼잡도().equals("많음")){
+        if(parkingInfos.get(position).getColor().equals("많음")){
             holder.changePercentTxt.setTextColor(Color.parseColor("#97B9AD"));
             str_cng = "ic_green";
-        }else if (parkingInfos.get(position).get주차혼잡도().equals("보통")){
+        }else if (parkingInfos.get(position).getColor().equals("보통")){
             holder.changePercentTxt.setTextColor(Color.parseColor("#FFF7E682"));
             str_cng = "ic_yellow";
         }else{ //적음
@@ -63,7 +63,7 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
                 .into(holder.pinImg);
 
         holder.img_findPath.setOnClickListener(v ->
-                recomendActivity.drawPathAsync(parkingInfos.get(position).getLAT(), parkingInfos.get(position).getLNG()) //tmap까지 static으로 해서 그런듯 ㄴㄴ 객체가 없으니까 업데이트가 안 되는 느낌? 나도 잘은 몰
+                recomendActivity.drawPathAsync(parkingInfos.get(position).getLat(), parkingInfos.get(position).getLng()) //tmap까지 static으로 해서 그런듯 ㄴㄴ 객체가 없으니까 업데이트가 안 되는 느낌? 나도 잘은 몰
                 );
     }
 

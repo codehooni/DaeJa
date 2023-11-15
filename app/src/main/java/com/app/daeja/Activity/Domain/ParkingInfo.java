@@ -4,143 +4,143 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ParkingInfo {
-    @SerializedName("ID")
+    @SerializedName("id")
     @Expose
     Integer ID;
-    @SerializedName("PARKING_CODE")
+    @SerializedName("parking_CODE")
     @Expose
     Integer PARKING_CODE;
-    @SerializedName("PARKING_NAME")
+    @SerializedName("parking_NAME")
     @Expose
     String PARKING_NAME;
-    @SerializedName("PARKING_ADDR")
+    @SerializedName("parking_ADDR")
     @Expose
     String PARKING_ADDR;
-    @SerializedName("PARKING_TYPE_NM")
+    @SerializedName("parking_TYPE_NM")
     @Expose
-    String 주차장_종류명; //노외(NW) or 노상(NS)
-    @SerializedName("OPERATION_RULE_NM")
+    String parking_TYPE_NM; //노외(NW) or 노상(NS)
+    @SerializedName("operation_RULE_NM")
     @Expose
-    String 운영제구분명; //시간제 주차장 or 버스전용 주차장 or 시간제+버스전용 주차장
-    @SerializedName("TEL")
+    String operation_RULE_NM; //시간제 주차장 or 버스전용 주차장 or 시간제+버스전용 주차장
+    @SerializedName("tel")
     @Expose
-    String 전화번호;
-    @SerializedName("QUE_STATUS")
+    String TEL;
+    @SerializedName("que_STATUS")
     @Expose
-    boolean 주차현황_정보_제공여부; //제공 true, 미제공 false
-    @SerializedName("CAPACITY")
+    boolean que_STATUS; //제공 true, 미제공 false
+    @SerializedName("capacity")
     @Expose
-    Integer 총_주차면;
-    @SerializedName("CUR_PARKING")
+    Integer capacity;
+    @SerializedName("cur_PARKING")
     @Expose
-    Integer 현재_주차_차량수;
-    @SerializedName("CUR_PARKING_TIME")
+    Integer cur_PARKING;
+    @SerializedName("cur_PARKING_TIME")
     @Expose
-    String 현재_주차_차량수_업데이트시간;
-    @SerializedName("PAY_NM")
+    String cur_PARKING_TIME;
+    @SerializedName("pay_NM")
     @Expose
-    String 유무료구분명;
-    @SerializedName("NIGHT_FREE_OPEN_NM")
+    String pay_NM;
+    @SerializedName("night_FREE_OPEN_NM")
     @Expose
-    String 야간무료개방여부명;
-    @SerializedName("WEEKDAY_BEGIN_TIME")
+    String night_FREE_OPEN_NM;
+    @SerializedName("weekday_BEGIN_TIME")
     @Expose
-    String 평일_운영_시작시각; //HH:MM
-    @SerializedName("WEEKDAY_END_TIME")
+    String weekday_BEGIN_TIME; //HH:MM
+    @SerializedName("weekday_END_TIME")
     @Expose
-    String 평일_운영_종료시각; //HH:MM
-    @SerializedName("WEEKEND_BEGIN_TIME")
+    String weekday_END_TIME; //HH:MM
+    @SerializedName("weekend_BEGIN_TIME")
     @Expose
-    String 주말_운영_시작시각; //HH:MM
-    @SerializedName("WEEKEND_END_TIME")
+    String weekend_BEGIN_TIME; //HH:MM
+    @SerializedName("weekend_END_TIME")
     @Expose
-    String 주말_운영_종료시각; //HH:MM
-    @SerializedName("HOLIDAY_BEGIN_TIME")
+    String weekend_END_TIME; //HH:MM
+    @SerializedName("holyday_BEGIN_TIME")
     @Expose
-    String 공휴일_운영_시작시각; //HH:MM
-    @SerializedName("HOLIDAY_END_TIME")
+    String holyday_BEGIN_TIME; //HH:MM
+    @SerializedName("holyday_END_TIME")
     @Expose
-    String 공휴일_운영_종료시각; //HH:MM
-    @SerializedName("SATURDAY_PAY_NM")
+    String holyday_END_TIME; //HH:MM
+    @SerializedName("saturday_PAY_NM")
     @Expose
-    String 토요일_유무료_구분명;
-    @SerializedName("HOLIDAY_PAY_NM")
+    String saturday_PAY_NM;
+    @SerializedName("holyday_PAY_NM")
     @Expose
-    String 공휴일_유무료_구분명;
-    @SerializedName("FULLTIME_MONTHLY")
+    String holyday_PAY_NM;
+    @SerializedName("fulltime_MONTHLY")
     @Expose
-    Integer 월_정기권_금액;
-    @SerializedName("RATES")
+    Integer fulltime_MONTHLY;
+    @SerializedName("rates")
     @Expose
-    String 기본_주차_요금;
-    @SerializedName("TIME_RATE")
+    String rates;
+    @SerializedName("time_RATE")
     @Expose
-    String 기본_주차_시간_분_단위;
-    @SerializedName("ADD_RATES")
+    String time_RATE;
+    @SerializedName("add_RATES")
     @Expose
-    String 추가_단위_요금;
-    @SerializedName("ADD_TIME_RATE")
+    String add_RATES;
+    @SerializedName("add_TIME_RATE")
     @Expose
-    String 추가_단위_시간_분_단위;
-    @SerializedName("DAY_MAXIMUM")
+    String add_TIME_RATE;
+    @SerializedName("day_MAXIMUM")
     @Expose
-    Integer 일_최대_요금;
-    @SerializedName("LAT")
+    Integer day_MAXIMUM;
+    @SerializedName("lat")
     @Expose
-    Double LAT;
-    @SerializedName("LNG")
+    Double lat;
+    @SerializedName("lng")
     @Expose
-    Double LNG;
-    @SerializedName("SH_CO")
+    Double lng;
+    @SerializedName("sh_CO")
     @Expose
-    String 공유_주차장_관리업체명;
-    @SerializedName("SH_LINK")
+    String sh_CO;
+    @SerializedName("sh_LINK")
     @Expose
-    String 공유_주차장_관리업체_링크;
-    @SerializedName("SH_TYPE")
+    String sh_LINK;
+    @SerializedName("sh_TYPE")
     @Expose
-    boolean 공유_주차장_여부; // (true:공유주차장 false:공유주차장 아님)
-    @SerializedName("PARKING_TYPE_NM")
+    boolean sh_TYPE; // (true:공유주차장 false:공유주차장 아님)
+    @SerializedName("color")
     @Expose
-    String 주차혼잡도; // "많음", "보통", "적음"
+    String color; // "많음", "보통", "적음"
 
     public ParkingInfo() {
     }
 
-    public ParkingInfo(Integer ID, Integer PARKING_CODE, String PARKING_NAME, String PARKING_ADDR, String 주차장_종류명, String 운영제구분명, String 전화번호, boolean 주차현황_정보_제공여부, Integer 총_주차면, Integer 현재_주차_차량수, String 현재_주차_차량수_업데이트시간, String 유무료구분명, String 야간무료개방여부명, String 평일_운영_시작시각, String 평일_운영_종료시각, String 주말_운영_시작시각, String 주말_운영_종료시각, String 공휴일_운영_시작시각, String 공휴일_운영_종료시각, String 토요일_유무료_구분명, String 공휴일_유무료_구분명, Integer 월_정기권_금액, String 기본_주차_요금, String 기본_주차_시간_분_단위, String 추가_단위_요금, String 추가_단위_시간_분_단위, Integer 일_최대_요금, Double LAT, Double LNG, String 공유_주차장_관리업체명, String 공유_주차장_관리업체_링크, boolean 공유_주차장_여부, String 주차혼잡도) {
+    public ParkingInfo(Integer ID, Integer PARKING_CODE, String PARKING_NAME, String PARKING_ADDR, String parking_TYPE_NM, String operation_RULE_NM, String TEL, boolean que_STATUS, Integer capacity, Integer cur_PARKING, String cur_PARKING_TIME, String pay_NM, String night_FREE_OPEN_NM, String weekday_BEGIN_TIME, String weekday_END_TIME, String weekend_BEGIN_TIME, String weekend_END_TIME, String holyday_BEGIN_TIME, String holyday_END_TIME, String saturday_PAY_NM, String holyday_PAY_NM, Integer fulltime_MONTHLY, String rates, String time_RATE, String add_RATES, String add_TIME_RATE, Integer day_MAXIMUM, Double lat, Double lng, String sh_CO, String sh_LINK, boolean sh_TYPE, String color) {
         this.ID = ID;
         this.PARKING_CODE = PARKING_CODE;
         this.PARKING_NAME = PARKING_NAME;
         this.PARKING_ADDR = PARKING_ADDR;
-        this.주차장_종류명 = 주차장_종류명;
-        this.운영제구분명 = 운영제구분명;
-        this.전화번호 = 전화번호;
-        this.주차현황_정보_제공여부 = 주차현황_정보_제공여부;
-        this.총_주차면 = 총_주차면;
-        this.현재_주차_차량수 = 현재_주차_차량수;
-        this.현재_주차_차량수_업데이트시간 = 현재_주차_차량수_업데이트시간;
-        this.유무료구분명 = 유무료구분명;
-        this.야간무료개방여부명 = 야간무료개방여부명;
-        this.평일_운영_시작시각 = 평일_운영_시작시각;
-        this.평일_운영_종료시각 = 평일_운영_종료시각;
-        this.주말_운영_시작시각 = 주말_운영_시작시각;
-        this.주말_운영_종료시각 = 주말_운영_종료시각;
-        this.공휴일_운영_시작시각 = 공휴일_운영_시작시각;
-        this.공휴일_운영_종료시각 = 공휴일_운영_종료시각;
-        this.토요일_유무료_구분명 = 토요일_유무료_구분명;
-        this.공휴일_유무료_구분명 = 공휴일_유무료_구분명;
-        this.월_정기권_금액 = 월_정기권_금액;
-        this.기본_주차_요금 = 기본_주차_요금;
-        this.기본_주차_시간_분_단위 = 기본_주차_시간_분_단위;
-        this.추가_단위_요금 = 추가_단위_요금;
-        this.추가_단위_시간_분_단위 = 추가_단위_시간_분_단위;
-        this.일_최대_요금 = 일_최대_요금;
-        this.LAT = LAT;
-        this.LNG = LNG;
-        this.공유_주차장_관리업체명 = 공유_주차장_관리업체명;
-        this.공유_주차장_관리업체_링크 = 공유_주차장_관리업체_링크;
-        this.공유_주차장_여부 = 공유_주차장_여부;
-        this.주차혼잡도 = 주차혼잡도;
+        this.parking_TYPE_NM = parking_TYPE_NM;
+        this.operation_RULE_NM = operation_RULE_NM;
+        this.TEL = TEL;
+        this.que_STATUS = que_STATUS;
+        this.capacity = capacity;
+        this.cur_PARKING = cur_PARKING;
+        this.cur_PARKING_TIME = cur_PARKING_TIME;
+        this.pay_NM = pay_NM;
+        this.night_FREE_OPEN_NM = night_FREE_OPEN_NM;
+        this.weekday_BEGIN_TIME = weekday_BEGIN_TIME;
+        this.weekday_END_TIME = weekday_END_TIME;
+        this.weekend_BEGIN_TIME = weekend_BEGIN_TIME;
+        this.weekend_END_TIME = weekend_END_TIME;
+        this.holyday_BEGIN_TIME = holyday_BEGIN_TIME;
+        this.holyday_END_TIME = holyday_END_TIME;
+        this.saturday_PAY_NM = saturday_PAY_NM;
+        this.holyday_PAY_NM = holyday_PAY_NM;
+        this.fulltime_MONTHLY = fulltime_MONTHLY;
+        this.rates = rates;
+        this.time_RATE = time_RATE;
+        this.add_RATES = add_RATES;
+        this.add_TIME_RATE = add_TIME_RATE;
+        this.day_MAXIMUM = day_MAXIMUM;
+        this.lat = lat;
+        this.lng = lng;
+        this.sh_CO = sh_CO;
+        this.sh_LINK = sh_LINK;
+        this.sh_TYPE = sh_TYPE;
+        this.color = color;
     }
 
     public Integer getID() {
@@ -175,235 +175,235 @@ public class ParkingInfo {
         this.PARKING_ADDR = PARKING_ADDR;
     }
 
-    public String get주차장_종류명() {
-        return 주차장_종류명;
+    public String getParking_TYPE_NM() {
+        return parking_TYPE_NM;
     }
 
-    public void set주차장_종류명(String 주차장_종류명) {
-        this.주차장_종류명 = 주차장_종류명;
+    public void setParking_TYPE_NM(String parking_TYPE_NM) {
+        this.parking_TYPE_NM = parking_TYPE_NM;
     }
 
-    public String get운영제구분명() {
-        return 운영제구분명;
+    public String getOperation_RULE_NM() {
+        return operation_RULE_NM;
     }
 
-    public void set운영제구분명(String 운영제구분명) {
-        this.운영제구분명 = 운영제구분명;
+    public void setOperation_RULE_NM(String operation_RULE_NM) {
+        this.operation_RULE_NM = operation_RULE_NM;
     }
 
-    public String get전화번호() {
-        return 전화번호;
+    public String getTel() {
+        return TEL;
     }
 
-    public void set전화번호(String 전화번호) {
-        this.전화번호 = 전화번호;
+    public void setTel(String tel) {
+        this.TEL = tel;
     }
 
-    public boolean is주차현황_정보_제공여부() {
-        return 주차현황_정보_제공여부;
+    public boolean isQue_STATUS() {
+        return que_STATUS;
     }
 
-    public void set주차현황_정보_제공여부(boolean 주차현황_정보_제공여부) {
-        this.주차현황_정보_제공여부 = 주차현황_정보_제공여부;
+    public void setQue_STATUS(boolean que_STATUS) {
+        this.que_STATUS = que_STATUS;
     }
 
-    public Integer get총_주차면() {
-        return 총_주차면;
+    public Integer getCapacity() {
+        return capacity;
     }
 
-    public void set총_주차면(Integer 총_주차면) {
-        this.총_주차면 = 총_주차면;
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
-    public Integer get현재_주차_차량수() {
-        return 현재_주차_차량수;
+    public Integer getCur_PARKING() {
+        return cur_PARKING;
     }
 
-    public void set현재_주차_차량수(Integer 현재_주차_차량수) {
-        this.현재_주차_차량수 = 현재_주차_차량수;
+    public void setCur_PARKING(Integer cur_PARKING) {
+        this.cur_PARKING = cur_PARKING;
     }
 
-    public String get현재_주차_차량수_업데이트시간() {
-        return 현재_주차_차량수_업데이트시간;
+    public String getCur_PARKING_TIME() {
+        return cur_PARKING_TIME;
     }
 
-    public void set현재_주차_차량수_업데이트시간(String 현재_주차_차량수_업데이트시간) {
-        this.현재_주차_차량수_업데이트시간 = 현재_주차_차량수_업데이트시간;
+    public void setCur_PARKING_TIME(String cur_PARKING_TIME) {
+        this.cur_PARKING_TIME = cur_PARKING_TIME;
     }
 
-    public String get유무료구분명() {
-        return 유무료구분명;
+    public String getPay_NM() {
+        return pay_NM;
     }
 
-    public void set유무료구분명(String 유무료구분명) {
-        this.유무료구분명 = 유무료구분명;
+    public void setPay_NM(String pay_NM) {
+        this.pay_NM = pay_NM;
     }
 
-    public String get야간무료개방여부명() {
-        return 야간무료개방여부명;
+    public String getNight_FREE_OPEN_NM() {
+        return night_FREE_OPEN_NM;
     }
 
-    public void set야간무료개방여부명(String 야간무료개방여부명) {
-        this.야간무료개방여부명 = 야간무료개방여부명;
+    public void setNight_FREE_OPEN_NM(String night_FREE_OPEN_NM) {
+        this.night_FREE_OPEN_NM = night_FREE_OPEN_NM;
     }
 
-    public String get평일_운영_시작시각() {
-        return 평일_운영_시작시각;
+    public String getWeekday_BEGIN_TIME() {
+        return weekday_BEGIN_TIME;
     }
 
-    public void set평일_운영_시작시각(String 평일_운영_시작시각) {
-        this.평일_운영_시작시각 = 평일_운영_시작시각;
+    public void setWeekday_BEGIN_TIME(String weekday_BEGIN_TIME) {
+        this.weekday_BEGIN_TIME = weekday_BEGIN_TIME;
     }
 
-    public String get평일_운영_종료시각() {
-        return 평일_운영_종료시각;
+    public String getWeekday_END_TIME() {
+        return weekday_END_TIME;
     }
 
-    public void set평일_운영_종료시각(String 평일_운영_종료시각) {
-        this.평일_운영_종료시각 = 평일_운영_종료시각;
+    public void setWeekday_END_TIME(String weekday_END_TIME) {
+        this.weekday_END_TIME = weekday_END_TIME;
     }
 
-    public String get주말_운영_시작시각() {
-        return 주말_운영_시작시각;
+    public String getWeekend_BEGIN_TIME() {
+        return weekend_BEGIN_TIME;
     }
 
-    public void set주말_운영_시작시각(String 주말_운영_시작시각) {
-        this.주말_운영_시작시각 = 주말_운영_시작시각;
+    public void setWeekend_BEGIN_TIME(String weekend_BEGIN_TIME) {
+        this.weekend_BEGIN_TIME = weekend_BEGIN_TIME;
     }
 
-    public String get주말_운영_종료시각() {
-        return 주말_운영_종료시각;
+    public String getWeekend_END_TIME() {
+        return weekend_END_TIME;
     }
 
-    public void set주말_운영_종료시각(String 주말_운영_종료시각) {
-        this.주말_운영_종료시각 = 주말_운영_종료시각;
+    public void setWeekend_END_TIME(String weekend_END_TIME) {
+        this.weekend_END_TIME = weekend_END_TIME;
     }
 
-    public String get공휴일_운영_시작시각() {
-        return 공휴일_운영_시작시각;
+    public String getHolyday_BEGIN_TIME() {
+        return holyday_BEGIN_TIME;
     }
 
-    public void set공휴일_운영_시작시각(String 공휴일_운영_시작시각) {
-        this.공휴일_운영_시작시각 = 공휴일_운영_시작시각;
+    public void setHolyday_BEGIN_TIME(String holyday_BEGIN_TIME) {
+        this.holyday_BEGIN_TIME = holyday_BEGIN_TIME;
     }
 
-    public String get공휴일_운영_종료시각() {
-        return 공휴일_운영_종료시각;
+    public String getHolyday_END_TIME() {
+        return holyday_END_TIME;
     }
 
-    public void set공휴일_운영_종료시각(String 공휴일_운영_종료시각) {
-        this.공휴일_운영_종료시각 = 공휴일_운영_종료시각;
+    public void setHolyday_END_TIME(String holyday_END_TIME) {
+        this.holyday_END_TIME = holyday_END_TIME;
     }
 
-    public String get토요일_유무료_구분명() {
-        return 토요일_유무료_구분명;
+    public String getSaturday_PAY_NM() {
+        return saturday_PAY_NM;
     }
 
-    public void set토요일_유무료_구분명(String 토요일_유무료_구분명) {
-        this.토요일_유무료_구분명 = 토요일_유무료_구분명;
+    public void setSaturday_PAY_NM(String saturday_PAY_NM) {
+        this.saturday_PAY_NM = saturday_PAY_NM;
     }
 
-    public String get공휴일_유무료_구분명() {
-        return 공휴일_유무료_구분명;
+    public String getHolyday_PAY_NM() {
+        return holyday_PAY_NM;
     }
 
-    public void set공휴일_유무료_구분명(String 공휴일_유무료_구분명) {
-        this.공휴일_유무료_구분명 = 공휴일_유무료_구분명;
+    public void setHolyday_PAY_NM(String holyday_PAY_NM) {
+        this.holyday_PAY_NM = holyday_PAY_NM;
     }
 
-    public Integer get월_정기권_금액() {
-        return 월_정기권_금액;
+    public Integer getFulltime_MONTHLY() {
+        return fulltime_MONTHLY;
     }
 
-    public void set월_정기권_금액(Integer 월_정기권_금액) {
-        this.월_정기권_금액 = 월_정기권_금액;
+    public void setFulltime_MONTHLY(Integer fulltime_MONTHLY) {
+        this.fulltime_MONTHLY = fulltime_MONTHLY;
     }
 
-    public String get기본_주차_요금() {
-        return 기본_주차_요금;
+    public String getRates() {
+        return rates;
     }
 
-    public void set기본_주차_요금(String 기본_주차_요금) {
-        this.기본_주차_요금 = 기본_주차_요금;
+    public void setRates(String rates) {
+        this.rates = rates;
     }
 
-    public String get기본_주차_시간_분_단위() {
-        return 기본_주차_시간_분_단위;
+    public String getTime_RATE() {
+        return time_RATE;
     }
 
-    public void set기본_주차_시간_분_단위(String 기본_주차_시간_분_단위) {
-        this.기본_주차_시간_분_단위 = 기본_주차_시간_분_단위;
+    public void setTime_RATE(String time_RATE) {
+        this.time_RATE = time_RATE;
     }
 
-    public String get추가_단위_요금() {
-        return 추가_단위_요금;
+    public String getAdd_RATES() {
+        return add_RATES;
     }
 
-    public void set추가_단위_요금(String 추가_단위_요금) {
-        this.추가_단위_요금 = 추가_단위_요금;
+    public void setAdd_RATES(String add_RATES) {
+        this.add_RATES = add_RATES;
     }
 
-    public String get추가_단위_시간_분_단위() {
-        return 추가_단위_시간_분_단위;
+    public String getAdd_TIME_RATE() {
+        return add_TIME_RATE;
     }
 
-    public void set추가_단위_시간_분_단위(String 추가_단위_시간_분_단위) {
-        this.추가_단위_시간_분_단위 = 추가_단위_시간_분_단위;
+    public void setAdd_TIME_RATE(String add_TIME_RATE) {
+        this.add_TIME_RATE = add_TIME_RATE;
     }
 
-    public Integer get일_최대_요금() {
-        return 일_최대_요금;
+    public Integer getDay_MAXIMUM() {
+        return day_MAXIMUM;
     }
 
-    public void set일_최대_요금(Integer 일_최대_요금) {
-        this.일_최대_요금 = 일_최대_요금;
+    public void setDay_MAXIMUM(Integer day_MAXIMUM) {
+        this.day_MAXIMUM = day_MAXIMUM;
     }
 
-    public Double getLAT() {
-        return LAT;
+    public Double getLat() {
+        return lat;
     }
 
-    public void setLAT(Double LAT) {
-        this.LAT = LAT;
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
-    public Double getLNG() {
-        return LNG;
+    public Double getLng() {
+        return lng;
     }
 
-    public void setLNG(Double LNG) {
-        this.LNG = LNG;
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 
-    public String get공유_주차장_관리업체명() {
-        return 공유_주차장_관리업체명;
+    public String getSh_CO() {
+        return sh_CO;
     }
 
-    public void set공유_주차장_관리업체명(String 공유_주차장_관리업체명) {
-        this.공유_주차장_관리업체명 = 공유_주차장_관리업체명;
+    public void setSh_CO(String sh_CO) {
+        this.sh_CO = sh_CO;
     }
 
-    public String get공유_주차장_관리업체_링크() {
-        return 공유_주차장_관리업체_링크;
+    public String getSh_LINK() {
+        return sh_LINK;
     }
 
-    public void set공유_주차장_관리업체_링크(String 공유_주차장_관리업체_링크) {
-        this.공유_주차장_관리업체_링크 = 공유_주차장_관리업체_링크;
+    public void setSh_LINK(String sh_LINK) {
+        this.sh_LINK = sh_LINK;
     }
 
-    public boolean is공유_주차장_여부() {
-        return 공유_주차장_여부;
+    public boolean isSh_TYPE() {
+        return sh_TYPE;
     }
 
-    public void set공유_주차장_여부(boolean 공유_주차장_여부) {
-        this.공유_주차장_여부 = 공유_주차장_여부;
+    public void setSh_TYPE(boolean sh_TYPE) {
+        this.sh_TYPE = sh_TYPE;
     }
 
-    public String get주차혼잡도() {
-        return 주차혼잡도;
+    public String getColor() {
+        return color;
     }
 
-    public void set주차혼잡도(String 주차혼잡도) {
-        this.주차혼잡도 = 주차혼잡도;
+    public void setColor(String color) {
+        this.color = color;
     }
 }

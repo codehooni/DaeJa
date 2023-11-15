@@ -11,11 +11,13 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,8 +57,6 @@ public class RecomendActivity extends AppCompatActivity {
     private TMapView tMapView;
     private double cur_lat = 37.5663507;
     private double cur_lng = 126.9851113;
-    private double ex1= 37.322235;
-    private double ex2=127.12765166666667;
     private static final String tApiKey = "KbtV6K1LiCa2kYZ2ieDhU3pxBBS5A5gA5CL5O3el";
 
     @Override
@@ -74,23 +74,27 @@ public class RecomendActivity extends AppCompatActivity {
         }
 
         callServerAsync();
+        //Log.e("as", parkingInfos.get(0).getPARKING_NAME());
 
-        tMapView.removeAllMarkerItem();
-        pointPin();
+        ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.recommend);
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {tMapView.removeAllMarkerItem();
+                pointPin();
+                tMapView.setLocationPoint(37.48395, 126.9010);
+                recyclerVieParking();
 
-        recyclerVieParking();
+            }
+        });
+
+
+
     }
 
     // callServer() 메서드를 비동기로 실행하는 방법
     private void callServerAsync() {
         new Thread(() -> {
             callServer(); // 네트워크 작업 수행
-            runOnUiThread(() -> {
-                tMapView.removeAllMarkerItem();
-                pointPin();
-                tMapView.setLocationPoint(37.48395, 126.9010);
-                recyclerVieParking();
-            });
         }).start();
     }
 
@@ -106,16 +110,16 @@ public class RecomendActivity extends AppCompatActivity {
 
         for(int i = 0; i < parkingInfos.size(); i++){
             TMapMarkerItem tMapMarkerItem = new TMapMarkerItem();
-            TMapPoint tMapPoint = new TMapPoint(parkingInfos.get(i).getLAT(), parkingInfos.get(i).getLNG());
+            TMapPoint tMapPoint = new TMapPoint(parkingInfos.get(i).getLat(), parkingInfos.get(i).getLng());
             String markerId;
             Bitmap bitmap;
 
             //marker setting
-            if(parkingInfos.get(i).get주차혼잡도().equals("많음")){
+            if(parkingInfos.get(i).getColor().equals("많음")){
                 bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_green);
-            }else if (parkingInfos.get(i).get주차혼잡도().equals("보통")){
+            }else if (parkingInfos.get(i).getColor().equals("보통")){
                 bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_yellow);
-            }else if (parkingInfos.get(i).get주차혼잡도().equals("적음")){
+            }else if (parkingInfos.get(i).getColor().equals("적음")){
                 bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_red);
             }else{
                 bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_gray);
@@ -127,7 +131,7 @@ public class RecomendActivity extends AppCompatActivity {
             tMapMarkerItem.setName(parkingInfos.get(i).getPARKING_NAME()); // 마커의 타이틀 지정
             tMapMarkerItem.setCanShowCallout(true); // 풍선뷰
             tMapMarkerItem.setCalloutTitle(parkingInfos.get(i).getPARKING_NAME());
-            tMapMarkerItem.setCalloutSubTitle(parkingInfos.get(i).get현재_주차_차량수() + "/" + parkingInfos.get(i).get총_주차면());
+            tMapMarkerItem.setCalloutSubTitle(parkingInfos.get(i).getCur_PARKING() + "/" + parkingInfos.get(i).getCapacity());
             tMapMarkerItem.setCalloutLeftImage(bitmap);
             //tMapMarkerItem.setCalloutRightButtonImage(bitmap);
             tMapMarkerItem.setEnableClustering(true);

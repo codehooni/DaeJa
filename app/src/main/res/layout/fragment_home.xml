@@ -30,24 +30,24 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayoutTmap">
 
         <ImageView
-            android:id="@+id/imageView12"
+            android:id="@+id/img_search"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/editTextText"
-            app:layout_constraintStart_toEndOf="@+id/editTextText"
-            app:layout_constraintTop_toTopOf="@+id/editTextText"
+            app:layout_constraintBottom_toBottomOf="@+id/search_barEt"
+            app:layout_constraintStart_toEndOf="@+id/search_barEt"
+            app:layout_constraintTop_toTopOf="@+id/search_barEt"
             app:srcCompat="@drawable/ic_search" />
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/search_barEt"
             android:layout_width="313dp"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:ems="10"
             android:inputType="text"
-            android:text="Search"
+            android:hint="Search"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

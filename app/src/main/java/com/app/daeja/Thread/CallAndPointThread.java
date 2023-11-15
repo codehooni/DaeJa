@@ -55,16 +55,16 @@ public class CallAndPointThread extends Thread{
 
         for(int i = 0; i < parkingInfos.size(); i++){
             TMapMarkerItem tMapMarkerItem = new TMapMarkerItem();
-            TMapPoint tMapPoint = new TMapPoint(parkingInfos.get(i).getLAT(), parkingInfos.get(i).getLNG());
+            TMapPoint tMapPoint = new TMapPoint(parkingInfos.get(i).getLat(), parkingInfos.get(i).getLng());
             String markerId;
             Bitmap bitmap;
 
             //marker setting
-            if(parkingInfos.get(i).get주차혼잡도().equals("많음")){
+            if(parkingInfos.get(i).getColor().equals("많음")){
                 bitmap = BitmapFactory.decodeResource(ct.getResources(), R.drawable.ic_green);
-            }else if (parkingInfos.get(i).get주차혼잡도().equals("보통")){
+            }else if (parkingInfos.get(i).getColor().equals("보통")){
                 bitmap = BitmapFactory.decodeResource(ct.getResources(), R.drawable.ic_yellow);
-            }else if (parkingInfos.get(i).get주차혼잡도().equals("적음")){
+            }else if (parkingInfos.get(i).getColor().equals("적음")){
                 bitmap = BitmapFactory.decodeResource(ct.getResources(), R.drawable.ic_red);
             }else{
                 bitmap = BitmapFactory.decodeResource(ct.getResources(), R.drawable.ic_gray);
@@ -76,7 +76,7 @@ public class CallAndPointThread extends Thread{
             tMapMarkerItem.setName(parkingInfos.get(i).getPARKING_NAME()); // 마커의 타이틀 지정
             tMapMarkerItem.setCanShowCallout(true); // 풍선뷰
             tMapMarkerItem.setCalloutTitle(parkingInfos.get(i).getPARKING_NAME());
-            tMapMarkerItem.setCalloutSubTitle(parkingInfos.get(i).get현재_주차_차량수() + "/" + parkingInfos.get(i).get총_주차면());
+            tMapMarkerItem.setCalloutSubTitle(parkingInfos.get(i).getCur_PARKING() + "/" + parkingInfos.get(i).getCapacity());
             tMapMarkerItem.setCalloutLeftImage(bitmap);
             //tMapMarkerItem.setCalloutRightButtonImage(bitmap);
             tMapMarkerItem.setEnableClustering(true);
