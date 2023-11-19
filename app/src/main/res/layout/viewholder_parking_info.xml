@@ -55,7 +55,7 @@
         app:layout_constraintTop_toTopOf="@+id/parkingStateTxt" />
 
     <TextView
-        android:id="@+id/parkingPriceInfoTxt"
+        android:id="@+id/parkingPriceInfoTxt2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -73,9 +73,9 @@
         android:layout_marginStart="8dp"
         android:text="150원/5분"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/parkingPriceInfoTxt"
-        app:layout_constraintStart_toEndOf="@+id/parkingPriceInfoTxt"
-        app:layout_constraintTop_toTopOf="@+id/parkingPriceInfoTxt" />
+        app:layout_constraintBottom_toBottomOf="@+id/parkingPriceInfoTxt2"
+        app:layout_constraintStart_toEndOf="@+id/parkingPriceInfoTxt2"
+        app:layout_constraintTop_toTopOf="@+id/parkingPriceInfoTxt2" />
 
     <ImageView
         android:id="@+id/imageView7"

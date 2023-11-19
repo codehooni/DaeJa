@@ -17,12 +17,14 @@ import com.app.daeja.Adapter.HistoryAdapter;
 import com.app.daeja.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HistroyFragment extends Fragment {
     private View view;
     private Context ct;
     protected RecyclerView.Adapter adapter;
     private RecyclerView recyclerView;
+    public static List<History> histories = new ArrayList<>();;
 
     @Nullable
     @Override
@@ -43,11 +45,9 @@ public class HistroyFragment extends Fragment {
 
         ArrayList<History> historyArrayList = new ArrayList<>();
 
-        historyArrayList.add(new History("서울시 공영", "단국대 소프트웨어관1"));
-        historyArrayList.add(new History("구로디지털단지역", "단국대학교 인문관주차장"));
-        historyArrayList.add(new History("가짜", "진짜"));
-        historyArrayList.add(new History("무", "유"));
-        historyArrayList.add(new History("무", "유"));
+        for(History history : histories) {
+            historyArrayList.add(history);
+        }
 
         adapter = new HistoryAdapter(historyArrayList);
         recyclerView.setAdapter(adapter);

@@ -2,6 +2,7 @@ package com.app.daeja.Activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +18,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.daeja.Activity.Domain.ParkingInfo;
 import com.app.daeja.Adapter.ParkingInfoAdapter;
-import com.app.daeja.Network.retrofit;
 import com.app.daeja.R;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
@@ -38,8 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RecomendActivity extends AppCompatActivity {
 
@@ -59,42 +56,77 @@ public class RecomendActivity extends AppCompatActivity {
     private double cur_lng = 126.9851113;
     private static final String tApiKey = "KbtV6K1LiCa2kYZ2ieDhU3pxBBS5A5gA5CL5O3el";
 
+    private Intent secondIntent;
+    private String who;
+    private double loc_lat = 37.5663507;
+    private double loc_lng = 126.9851113;
+
+    public double getCur_lat() {
+        return cur_lat;
+    }
+
+    public void setCur_lat(double cur_lat) {
+        this.cur_lat = cur_lat;
+    }
+
+    public double getCur_lng() {
+        return cur_lng;
+    }
+
+    public void setCur_lng(double cur_lng) {
+        this.cur_lng = cur_lng;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recomend);
 
-        // 위치 권한 확인 및 요청
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
-        } else {
-            // 권한이 이미 부여되었으면 지도 설정 시작
-            tMapViewInit();
+        secondIntent = getIntent();
+        who = secondIntent.getStringExtra("WHO");
+        loc_lat = secondIntent.getDoubleExtra("lat", 37.5663507);
+        loc_lng = secondIntent.getDoubleExtra("lng", 126.9851113);
 
+        if (who.equals("current")) {
+            // 위치 권한 확인 및 요청
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+            } else {
+                // 권한이 이미 부여되었으면 지도 설정 시작
+                tMapViewInit1();
+                currentCallServerAsync();
+            }
+        }else {
+            tMapViewInit2();
+            currentCallServerAsync();
         }
 
-        callServerAsync();
-        //Log.e("as", parkingInfos.get(0).getPARKING_NAME());
 
-        ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.recommend);
-        constraintLayout.setOnClickListener(new View.OnClickListener() {
+        ImageView img_refresh = findViewById(R.id.img_refresh);
+        img_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {tMapView.removeAllMarkerItem();
                 pointPin();
-                tMapView.setLocationPoint(37.48395, 126.9010);
-                recyclerVieParking();
-
+                if (who.equals("current")) {
+                    tMapView.setLocationPoint(cur_lat, cur_lng);
+                }else {
+                    tMapView.setLocationPoint(loc_lat, loc_lng);
+                }
+                recyclerViewParking();
             }
         });
-
-
 
     }
 
     // callServer() 메서드를 비동기로 실행하는 방법
-    private void callServerAsync() {
+    private void currentCallServerAsync() {
         new Thread(() -> {
-            callServer(); // 네트워크 작업 수행
+            currentCallServer(); // 네트워크 작업 수행
+        }).start();
+    }
+    private void locationCallServerAsync() {
+        new Thread(() -> {
+            locationCallServer(); // 네트워크 작업 수행
         }).start();
     }
 
@@ -142,28 +174,49 @@ public class RecomendActivity extends AppCompatActivity {
         }
     }
 
-    private void callServer() {
+    private void currentCallServer() {
         parkingInfos = new ArrayList<>();
-//        parkingInfos.add(new ParkingInfo(1, 1, "구로디지털 단지역", "주소입니다.", "노상주차장", "시간제 주차장", "TEL:010", true, 180, 90, "업데이트 시간", "유료", "야간 무료개방", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 0, "1500", "60", "100", "60", 60000, 37.48497, 126.9012, "", "", false, "보통"));
-//        parkingInfos.add(new ParkingInfo(2, 2, "올리브 모텔", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 34, 34, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "10000", "5", "1000", "60", 60000, 37.48395, 126.9010, "", "", false, "적음"));
-//        parkingInfos.add(new ParkingInfo(3, 3, "나이스파크 주차장", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 60, 10, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "2000", "60", "150", "60", 60000, 37.48578, 126.9017, "", "", false, "많음"));
-        call = retrofit.getApiService().staticFindNearbyLocations();
-        call.enqueue(new Callback<List<ParkingInfo>>() {
-            @Override
-            public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
-                List<ParkingInfo> resultList = response.body();
-                for (ParkingInfo parkingInfo : resultList) {
-                    parkingInfos.add(parkingInfo);
-                }
-            }
-            @Override
-            public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
-                // 오류 처리
-            }
-        });
+        parkingInfos.add(new ParkingInfo(1, 1, "구로디지털 단지역", "주소입니다.", "노상주차장", "시간제 주차장", "TEL:010", true, 180, 90, "업데이트 시간", "유료", "야간 무료개방", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 0, "1500", "60", "100", "60", 60000, 37.48497, 126.9012, "", "", false, "보통"));
+        parkingInfos.add(new ParkingInfo(2, 2, "올리브 모텔", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 34, 34, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "10000", "5", "1000", "60", 60000, 37.48395, 126.9010, "", "", false, "적음"));
+        parkingInfos.add(new ParkingInfo(3, 3, "나이스파크 주차장", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 60, 10, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "2000", "60", "150", "60", 60000, 37.48578, 126.9017, "", "", false, "많음"));
+//        call = retrofit.getApiService().test_api_get_recommend(cur_lat, cur_lng);
+//        call.enqueue(new Callback<List<ParkingInfo>>() {
+//            @Override
+//            public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
+//                List<ParkingInfo> resultList = response.body();
+//                for (ParkingInfo parkingInfo : resultList) {
+//                    parkingInfos.add(parkingInfo);
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
+//                // 오류 처리
+//            }
+//        });
     };
 
-    private void tMapViewInit() {
+    private void locationCallServer() {
+        parkingInfos = new ArrayList<>();
+        parkingInfos.add(new ParkingInfo(1, 1, "구로디지털 단지역", "주소입니다.", "노상주차장", "시간제 주차장", "TEL:010", true, 180, 90, "업데이트 시간", "유료", "야간 무료개방", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 0, "1500", "60", "100", "60", 60000, 37.48497, 126.9012, "", "", false, "보통"));
+        parkingInfos.add(new ParkingInfo(2, 2, "올리브 모텔", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 34, 34, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "10000", "5", "1000", "60", 60000, 37.48395, 126.9010, "", "", false, "적음"));
+        parkingInfos.add(new ParkingInfo(3, 3, "나이스파크 주차장", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 60, 10, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "2000", "60", "150", "60", 60000, 37.48578, 126.9017, "", "", false, "많음"));
+//        call = retrofit.getApiService().test_api_get_recommend(loc_lat, loc_lng);
+//        call.enqueue(new Callback<List<ParkingInfo>>() {
+//            @Override
+//            public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
+//                List<ParkingInfo> resultList = response.body();
+//                for (ParkingInfo parkingInfo : resultList) {
+//                    parkingInfos.add(parkingInfo);
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
+//                // 오류 처리
+//            }
+//        });
+    };
+
+    private void tMapViewInit1() {
         linearLayoutTmap = findViewById(R.id.linearLayoutTmap);
 
         tMapView = new TMapView(this);
@@ -191,16 +244,14 @@ public class RecomendActivity extends AppCompatActivity {
                 cur_lat = location.getLatitude();
                 cur_lng = location.getLongitude();
 
-
                 // Null 체크 추가하여 안전하게 호출하기
                 if (tMapView != null && tMapView.getMarkerItemFromID("currentLocationMarker") != null) {
+                    Log.e("log", "I got the current location");
                     TMapPoint currentLocation = new TMapPoint(cur_lat, cur_lng);
-                    tMapView.getMarkerItemFromID("currentLocationMarker").setTMapPoint(currentLocation);
                     tMapView.setCenterPoint(cur_lng, cur_lat);
+                    tMapView.setLocationPoint(cur_lng, cur_lat );
                 }
             }
-
-
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -233,6 +284,21 @@ public class RecomendActivity extends AppCompatActivity {
         linearLayoutTmap.addView(tMapView);
     }
 
+    private void tMapViewInit2() {
+        linearLayoutTmap = findViewById(R.id.linearLayoutTmap);
+
+        tMapView = new TMapView(this);
+        tMapView.setSKTMapApiKey(tApiKey);
+
+        tMapView.setZoomLevel(16);
+        tMapView.setIconVisibility(true);
+        tMapView.setMapType(tMapView.MAPTYPE_STANDARD);
+        tMapView.setCenterPoint(loc_lng, loc_lat);
+
+        linearLayoutTmap.addView(tMapView);
+    }
+
+
     // 경로 찍는 메서드
     public void drawPath(double des_lat, double des_lng) {
         TMapPoint Start = new TMapPoint(cur_lat, cur_lng); // 현재위치
@@ -248,7 +314,7 @@ public class RecomendActivity extends AppCompatActivity {
         }
     }
 
-    private void recyclerVieParking() {
+    private void recyclerViewParking() {
         LinearLayoutManager linearLayoutManager= new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView = findViewById(R.id.view);
         recyclerView.setLayoutManager(linearLayoutManager);

@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         Intent intent = new Intent(MainActivity.this, RecomendActivity.class);
-        intent.putExtra("LAT", 37.4849732);
-        intent.putExtra("LNG", 126.9012370);
+        intent.putExtra("WHO", "current");
         fab.setOnClickListener(v -> startActivity(intent));
 
 

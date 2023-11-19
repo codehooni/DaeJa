@@ -50,23 +50,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView17">
 
                 <ImageView
-                    android:id="@+id/imageView12"
+                    android:id="@+id/img_search_btn"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="16dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/editTextText"
-                    app:layout_constraintStart_toEndOf="@+id/editTextText"
-                    app:layout_constraintTop_toTopOf="@+id/editTextText"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_search_bar"
+                    app:layout_constraintStart_toEndOf="@+id/et_search_bar"
+                    app:layout_constraintTop_toTopOf="@+id/et_search_bar"
                     app:srcCompat="@drawable/ic_search" />
 
                 <EditText
-                    android:id="@+id/editTextText"
+                    android:id="@+id/et_search_bar"
                     android:layout_width="313dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="Search"
+                    android:hint="search"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -74,6 +74,25 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

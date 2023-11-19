@@ -80,15 +80,18 @@ public class HomeFragment extends Fragment {
                 while(isThread){
                     callServer();
                     handler.sendEmptyMessage(0);
-                    tMapView.removeAllMarkerItem();
-                    pointPin();
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                    handler.sendEmptyMessage(0);
+                    tMapView.removeAllMarkerItem();
                     pointPin();
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             });
             thread.start();
@@ -118,11 +121,8 @@ public class HomeFragment extends Fragment {
                 poiKeywords.add(str_search);
 
                 searchPOI(poiKeywords);
-
             }
         });
-
-
 
         return view;
     }
@@ -270,7 +270,7 @@ public class HomeFragment extends Fragment {
         tMapView.setZoomLevel(14);
         tMapView.setIconVisibility(true);
         tMapView.setMapType(tMapView.MAPTYPE_STANDARD);
-        tMapView.setLocationPoint(126.9005, 37.48113 );
+        tMapView.setLocationPoint(cur_lng, cur_lat );
         tMapView.setCenterPoint(cur_lng, cur_lat);
 
         linearLayoutTmap.addView(tMapView);

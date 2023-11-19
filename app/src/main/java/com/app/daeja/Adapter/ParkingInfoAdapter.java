@@ -1,19 +1,26 @@
 package com.app.daeja.Adapter;
 
+import static com.app.daeja.Fragment.HistroyFragment.histories;
+
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.daeja.Activity.Domain.History;
 import com.app.daeja.Activity.Domain.ParkingInfo;
 import com.app.daeja.Activity.RecomendActivity;
 import com.app.daeja.R;
 import com.bumptech.glide.Glide;
+import com.skt.Tmap.TMapData;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -62,10 +69,33 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
                 .load(drawableResourceID)
                 .into(holder.pinImg);
 
-        holder.img_findPath.setOnClickListener(v ->
-                recomendActivity.drawPathAsync(parkingInfos.get(position).getLat(), parkingInfos.get(position).getLng()) //tmap까지 static으로 해서 그런듯 ㄴㄴ 객체가 없으니까 업데이트가 안 되는 느낌? 나도 잘은 몰
-                );
+        holder.img_findPath.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recomendActivity.drawPathAsync(parkingInfos.get(position).getLat(), parkingInfos.get(position).getLng());
+                String curLoc = getCurloc();
+                histories.add(new History(curLoc, parkingInfos.get(position).getPARKING_NAME()));
+            }
+        });
     }
+
+    private String getCurloc() {
+        try {
+            final String address = new TMapData().convertGpsToAddress(recomendActivity.getCur_lat(), recomendActivity.getCur_lng());
+            handler.post(() -> Toast.makeText(recomendActivity, address, Toast.LENGTH_SHORT).show());
+            return address;
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return "default";
+    }
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            Toast.makeText(recomendActivity, "receive by server", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     public int getItemCount() {

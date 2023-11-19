@@ -15,6 +15,9 @@ public interface RetrofitAPI {
     @GET("response")
     Call<List<ParkingInfo>> test_api_get_all();
 
+    @GET("near/{lat}/{lng}")
+    Call<List<ParkingInfo>> test_api_get_recommend(@Path("lat") Double lat, @Path("lng") Double lng);
+
     @GET("api")
     Call<List<ParkingInfo>> test_api_get_reset(); //delete db and call api information
 
