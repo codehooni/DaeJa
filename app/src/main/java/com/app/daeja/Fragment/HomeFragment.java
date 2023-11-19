@@ -44,24 +44,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.app.daeja.Activity.Domain.ParkingInfo;
-import com.app.daeja.Adapter.ParkingInfoAdapter;
-import com.app.daeja.R;
-import com.skt.Tmap.TMapData;
-import com.skt.Tmap.TMapGpsManager;
-import com.skt.Tmap.TMapMarkerItem;
-import com.skt.Tmap.TMapPoint;
-import com.skt.Tmap.TMapPolyLine;
-import com.skt.Tmap.TMapView;
-
 public class HomeFragment extends Fragment {
 
     private static final int REQUEST_LOCATION_PERMISSION = 1;
@@ -317,7 +299,7 @@ public class HomeFragment extends Fragment {
         currentLocationMarker.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gray));
         tMapView.addMarkerItem("currentLocationMarker", currentLocationMarker);
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) ct.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
@@ -361,7 +343,7 @@ public class HomeFragment extends Fragment {
         tMapView.setZoomLevel(14);
         tMapView.setIconVisibility(true);
         tMapView.setMapType(tMapView.MAPTYPE_STANDARD);
-        tMapView.setLocationPoint(cur_lng, cur_lat );
+        tMapView.setLocationPoint(cur_lng, cur_lat);
         tMapView.setCenterPoint(cur_lng, cur_lat);
 
         linearLayoutTmap.addView(tMapView);
