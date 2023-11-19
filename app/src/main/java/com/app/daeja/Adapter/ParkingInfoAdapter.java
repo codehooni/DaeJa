@@ -5,6 +5,7 @@ import static com.app.daeja.Fragment.HistroyFragment.histories;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.daeja.Activity.Domain.History;
@@ -21,9 +23,11 @@ import com.app.daeja.Activity.RecomendActivity;
 import com.app.daeja.R;
 import com.bumptech.glide.Glide;
 import com.skt.Tmap.TMapData;
+import com.skt.Tmap.TMapTapi;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.Viewholder> {
     ArrayList<ParkingInfo> parkingInfos;
@@ -72,11 +76,33 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
         holder.img_findPath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.e("out lat", parkingInfos.get(position).getLat().toString());
+                Log.e("out lng", parkingInfos.get(position).getLng().toString());
+                launchTmapApp(parkingInfos.get(position).getPARKING_NAME(), parkingInfos.get(position).getLat(), parkingInfos.get(position).getLng());
+                String curLoc = getCurloc();
+                histories.add(new History(curLoc, parkingInfos.get(position).getPARKING_NAME()));
+            }
+        });
+
+        holder.constraintLayoutPath.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 recomendActivity.drawPathAsync(parkingInfos.get(position).getLat(), parkingInfos.get(position).getLng());
                 String curLoc = getCurloc();
                 histories.add(new History(curLoc, parkingInfos.get(position).getPARKING_NAME()));
             }
         });
+    }
+
+    public void launchTmapApp(String name, double lat, double lng) {
+
+        TMapTapi tMapTapi = new TMapTapi(recomendActivity);
+        boolean isTmapApp = tMapTapi.isTmapApplicationInstalled();
+        System.out.println(isTmapApp);   // -> 설치유무확인
+
+        tMapTapi.invokeRoute(name, (float)lng, (float)lat);
+
     }
 
     private String getCurloc() {
@@ -107,6 +133,8 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
         TextView parkingNameTxt, parkingStateTxt, changePercentTxt, parkingPriceTxt;
         ImageView pinImg, img_findPath;
 
+        ConstraintLayout constraintLayoutPath;
+
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             parkingNameTxt = itemView.findViewById(R.id.parkingNameTxt);
@@ -115,6 +143,7 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
             parkingPriceTxt = itemView.findViewById(R.id.parkingPriceTxt);
             pinImg = itemView.findViewById(R.id.pinImg);
             img_findPath = itemView.findViewById(R.id.img_findPath);
+            constraintLayoutPath = itemView.findViewById(R.id.constraintLayoutPath);
         }
     }
 }

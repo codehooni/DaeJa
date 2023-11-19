@@ -1,11 +1,17 @@
 package com.app.daeja.Fragment;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +23,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.app.daeja.Activity.Domain.ParkingInfo;
 import com.app.daeja.Network.retrofit;
 import com.app.daeja.R;
 import com.skt.Tmap.TMapData;
+import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
@@ -35,7 +44,28 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.app.daeja.Activity.Domain.ParkingInfo;
+import com.app.daeja.Adapter.ParkingInfoAdapter;
+import com.app.daeja.R;
+import com.skt.Tmap.TMapData;
+import com.skt.Tmap.TMapGpsManager;
+import com.skt.Tmap.TMapMarkerItem;
+import com.skt.Tmap.TMapPoint;
+import com.skt.Tmap.TMapPolyLine;
+import com.skt.Tmap.TMapView;
+
 public class HomeFragment extends Fragment {
+
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
+    private TMapGpsManager tMapGpsManager;
 
     private View view;
     private Context ct;
@@ -69,7 +99,12 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         ct = container.getContext();
 
-        TMapViewInit();
+        if (ContextCompat.checkSelfPermission(ct, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+        } else {
+            // 권한이 이미 부여되었으면 지도 설정 시작
+            TMapViewInit();
+        }
 
         //thread
         btn = view.findViewById(R.id.btn);
@@ -116,6 +151,9 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 str_search = search_barEt.getText().toString();
                 tMapView.removeAllMarkerItem();
+
+                tMapView.setLocationPoint(cur_lng, cur_lat);
+                tMapView.setCenterPoint(cur_lng, cur_lat);
 
                 ArrayList<String> poiKeywords = new ArrayList<>();
                 poiKeywords.add(str_search);
@@ -266,6 +304,59 @@ public class HomeFragment extends Fragment {
 
         tMapView = new TMapView(ct);
         tMapView.setSKTMapApiKey(tApiKey);
+
+        // TMapGpsManager를 사용하여 현재 위치 설정
+        tMapGpsManager = new TMapGpsManager(this.getContext());
+        tMapGpsManager.setMinTime(1000);
+        tMapGpsManager.setMinDistance(5);
+        tMapGpsManager.setProvider(TMapGpsManager.GPS_PROVIDER);
+        tMapGpsManager.OpenGps();
+
+        // 현재 위치를 나타내는 마커 추가
+        TMapMarkerItem currentLocationMarker = new TMapMarkerItem();
+        currentLocationMarker.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gray));
+        tMapView.addMarkerItem("currentLocationMarker", currentLocationMarker);
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                // 현재 위치의 좌표를 가져와서 마커 위치 업데이트
+                Log.d("Location", "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
+
+                cur_lat = location.getLatitude();
+                cur_lng = location.getLongitude();
+
+                // Null 체크 추가하여 안전하게 호출하기
+                if (tMapView != null && tMapView.getMarkerItemFromID("currentLocationMarker") != null) {
+                    Log.e("log", "I got the current location");
+                    TMapPoint currentLocation = new TMapPoint(cur_lat, cur_lng);
+                    tMapView.setCenterPoint(cur_lng, cur_lat);
+                    tMapView.setLocationPoint(cur_lng, cur_lat );
+                }
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                // 위치 공급자 상태 변경 시 호출
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+                // 위치 공급자가 사용 가능한 상태로 변경 시 호출
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                // 위치 공급자가 사용 불가능한 상태로 변경 시 호출
+            }
+        };
+
+        // 위치 업데이트를 요청
+        if (ContextCompat.checkSelfPermission(ct, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
+        }
 
         tMapView.setZoomLevel(14);
         tMapView.setIconVisibility(true);
