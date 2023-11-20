@@ -1,5 +1,6 @@
 package com.app.daeja.Adapter;
 
+import static com.app.daeja.Fragment.HistroyFragment.histories;
 import static java.security.AccessController.getContext;
 
 import android.content.Intent;
@@ -13,11 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.daeja.Activity.Domain.History;
 import com.app.daeja.Activity.Domain.Location;
-import com.app.daeja.Activity.InformationActivity;
 import com.app.daeja.Activity.RecomendActivity;
 import com.app.daeja.Fragment.SearchFragment;
 import com.app.daeja.R;
+import com.skt.Tmap.TMapTapi;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -56,23 +58,37 @@ public class SearchLocationAdapter extends RecyclerView.Adapter<SearchLocationAd
         holder.img_recommend.setOnClickListener(v -> {
             searchFragment.startActivity(intent);
                 });
-        holder.constraintLayout.setOnClickListener(v -> {
-            Intent intent1 = new Intent(searchFragment.getActivity(), InformationActivity.class);
-            intent1.putExtra("name", locations.get(position).getName());
-            intent1.putExtra("subName", locations.get(position).getSubName());
-            intent1.putExtra("address", locations.get(position).getAddress());
-            intent1.putExtra("tel", locations.get(position).getTel());
-            searchFragment.startActivity(intent1);
+        holder.img_path2.setOnClickListener(v -> {
+            launchTmapApp(locations.get(position).getName(), locations.get(position).getLat(), locations.get(position).getLng());
+            histories.add(new History("default", locations.get(position).getName()));
         });
+//        holder.constraintLayout.setOnClickListener(v -> {
+//            Intent intent1 = new Intent(searchFragment.getActivity(), InformationActivity.class);
+//            intent1.putExtra("name", locations.get(position).getName());
+//            intent1.putExtra("subName", locations.get(position).getSubName());
+//            intent1.putExtra("address", locations.get(position).getAddress());
+//            intent1.putExtra("tel", locations.get(position).getTel());
+//            intent1.putExtra("lat", locations.get(position).getLat());
+//            intent1.putExtra("lng", locations.get(position).getLng());
+//            searchFragment.startActivity(intent1);
+//        });
     }
+    public void launchTmapApp(String name, double lat, double lng) {
 
+        TMapTapi tMapTapi = new TMapTapi(searchFragment.requireContext());
+        boolean isTmapApp = tMapTapi.isTmapApplicationInstalled();
+        System.out.println(isTmapApp);   // -> 설치유무확인
+
+        tMapTapi.invokeRoute(name, (float)lng, (float)lat);
+
+    }
     @Override
     public int getItemCount() { return locations.size(); }
 
     public class Viewholder extends RecyclerView.ViewHolder{
 
         TextView tv_locateName, tv_address, tv_tel;
-        ImageView img_recommend;
+        ImageView img_recommend, img_path2;
         ConstraintLayout constraintLayout;
 
         public Viewholder(@NonNull View itemView) {
@@ -81,6 +97,7 @@ public class SearchLocationAdapter extends RecyclerView.Adapter<SearchLocationAd
             tv_address = itemView.findViewById(R.id.tv_address);
             tv_tel = itemView.findViewById(R.id.tv_tel);
             img_recommend = itemView.findViewById(R.id.img_recommend);
+            img_path2 = itemView.findViewById(R.id.img_path2);
             constraintLayout = itemView.findViewById(R.id.cl_showInfo);
         }
     }

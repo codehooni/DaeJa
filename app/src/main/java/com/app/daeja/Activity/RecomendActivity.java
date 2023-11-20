@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.daeja.Activity.Domain.ParkingInfo;
 import com.app.daeja.Adapter.ParkingInfoAdapter;
+import com.app.daeja.Network.retrofit;
 import com.app.daeja.R;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
@@ -37,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecomendActivity extends AppCompatActivity {
 
@@ -87,18 +90,22 @@ public class RecomendActivity extends AppCompatActivity {
         loc_lat = secondIntent.getDoubleExtra("lat", 37.5663507);
         loc_lng = secondIntent.getDoubleExtra("lng", 126.9851113);
 
+        // 위치 권한 확인 및 요청
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+        } else {
+            // 권한이 이미 부여되었으면 지도 설정 시작
+        }
+
+        tMapViewInit1();
+
         if (who.equals("current")) {
-            // 위치 권한 확인 및 요청
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
-            } else {
-                // 권한이 이미 부여되었으면 지도 설정 시작
-                tMapViewInit1();
-                currentCallServerAsync();
-            }
-        }else {
-            tMapViewInit2();
+            //tMapViewInit1();
             currentCallServerAsync();
+        }else {
+            Log.e("not current", "here");
+            //tMapViewInit2();
+            locationCallServerAsync();
         }
 
 
@@ -107,11 +114,11 @@ public class RecomendActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {tMapView.removeAllMarkerItem();
                 pointPin();
-                if (who.equals("current")) {
-                    tMapView.setLocationPoint(cur_lat, cur_lng);
-                }else {
-                    tMapView.setLocationPoint(loc_lat, loc_lng);
-                }
+//                if (who.equals("current")) {
+//                    tMapView.setLocationPoint(cur_lat, cur_lng);
+//                }else {
+//                    tMapView.setLocationPoint(loc_lat, loc_lng);
+//                }
                 recyclerViewParking();
             }
         });
@@ -176,44 +183,44 @@ public class RecomendActivity extends AppCompatActivity {
 
     private void currentCallServer() {
         parkingInfos = new ArrayList<>();
-        parkingInfos.add(new ParkingInfo(1, 1, "구로디지털 단지역", "주소입니다.", "노상주차장", "시간제 주차장", "TEL:010", true, 180, 90, "업데이트 시간", "유료", "야간 무료개방", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 0, "1500", "60", "100", "60", 60000, 37.48497, 126.9012, "", "", false, "보통"));
-        parkingInfos.add(new ParkingInfo(2, 2, "올리브 모텔", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 34, 34, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "10000", "5", "1000", "60", 60000, 37.48395, 126.9010, "", "", false, "적음"));
-        parkingInfos.add(new ParkingInfo(3, 3, "나이스파크 주차장", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 60, 10, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "2000", "60", "150", "60", 60000, 37.48578, 126.9017, "", "", false, "많음"));
-//        call = retrofit.getApiService().test_api_get_recommend(cur_lat, cur_lng);
-//        call.enqueue(new Callback<List<ParkingInfo>>() {
-//            @Override
-//            public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
-//                List<ParkingInfo> resultList = response.body();
-//                for (ParkingInfo parkingInfo : resultList) {
-//                    parkingInfos.add(parkingInfo);
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
-//                // 오류 처리
-//            }
-//        });
+//        parkingInfos.add(new ParkingInfo(1, 1, "구로디지털 단지역", "주소입니다.", "노상주차장", "시간제 주차장", "TEL:010", true, 180, 90, "업데이트 시간", "유료", "야간 무료개방", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 0, "1500", "60", "100", "60", 60000, 37.48497, 126.9012, "", "https://www.naver.com/", false, "보통"));
+//        parkingInfos.add(new ParkingInfo(2, 2, "올리브 모텔", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 34, 34, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "10000", "5", "1000", "60", 60000, 37.48395, 126.9010, "", "https://github.com/codehooni/", false, "적음"));
+//        parkingInfos.add(new ParkingInfo(3, 3, "나이스파크 주차장", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 60, 10, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "2000", "60", "150", "60", 60000, 37.48578, 126.9017, "", "", false, "많음"));
+        call = retrofit.getApiService().test_api_get_recommend(cur_lat, cur_lng);
+        call.enqueue(new Callback<List<ParkingInfo>>() {
+            @Override
+            public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
+                List<ParkingInfo> resultList = response.body();
+                for (ParkingInfo parkingInfo : resultList) {
+                    parkingInfos.add(parkingInfo);
+                }
+            }
+            @Override
+            public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
+                // 오류 처리
+            }
+        });
     };
 
     private void locationCallServer() {
         parkingInfos = new ArrayList<>();
-        parkingInfos.add(new ParkingInfo(1, 1, "구로디지털 단지역", "주소입니다.", "노상주차장", "시간제 주차장", "TEL:010", true, 180, 90, "업데이트 시간", "유료", "야간 무료개방", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 0, "1500", "60", "100", "60", 60000, 37.48497, 126.9012, "", "", false, "보통"));
-        parkingInfos.add(new ParkingInfo(2, 2, "올리브 모텔", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 34, 34, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "10000", "5", "1000", "60", 60000, 37.48395, 126.9010, "", "", false, "적음"));
-        parkingInfos.add(new ParkingInfo(3, 3, "나이스파크 주차장", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 60, 10, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "2000", "60", "150", "60", 60000, 37.48578, 126.9017, "", "", false, "많음"));
-//        call = retrofit.getApiService().test_api_get_recommend(loc_lat, loc_lng);
-//        call.enqueue(new Callback<List<ParkingInfo>>() {
-//            @Override
-//            public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
-//                List<ParkingInfo> resultList = response.body();
-//                for (ParkingInfo parkingInfo : resultList) {
-//                    parkingInfos.add(parkingInfo);
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
-//                // 오류 처리
-//            }
-//        });
+//        parkingInfos.add(new ParkingInfo(1, 1, "구로디지털 단지역", "주소입니다.", "노상주차장", "시간제 주차장", "TEL:010", true, 180, 90, "업데이트 시간", "유료", "야간 무료개방", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 0, "1500", "60", "100", "60", 60000, 37.48497, 126.9012, "", "", false, "보통"));
+//        parkingInfos.add(new ParkingInfo(2, 2, "올리브 모텔", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 34, 34, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "10000", "5", "1000", "60", 60000, 37.48395, 126.9010, "", "", false, "적음"));
+//        parkingInfos.add(new ParkingInfo(3, 3, "나이스파크 주차장", "주소입니다.", "노상주차장", "시간제 주차장", "MOTEL:010", true, 60, 10, "업데이트 시간", "유료", "야간 개방 x", "09:00", "18:00", "09:00", "16:00", "12:00", "18:00", "무료", "무료", 100000, "2000", "60", "150", "60", 60000, 37.48578, 126.9017, "", "", false, "많음"));
+        call = retrofit.getApiService().test_api_get_recommend(loc_lat, loc_lng);
+        call.enqueue(new Callback<List<ParkingInfo>>() {
+            @Override
+            public void onResponse(Call<List<ParkingInfo>> call, Response<List<ParkingInfo>> response) {
+                List<ParkingInfo> resultList = response.body();
+                for (ParkingInfo parkingInfo : resultList) {
+                    parkingInfos.add(parkingInfo);
+                }
+            }
+            @Override
+            public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
+                // 오류 처리
+            }
+        });
     };
 
     private void tMapViewInit1() {
@@ -239,10 +246,18 @@ public class RecomendActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 // 현재 위치의 좌표를 가져와서 마커 위치 업데이트
-                Log.d("Location", "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
+                Log.d("Recommend Location", "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
 
                 cur_lat = location.getLatitude();
                 cur_lng = location.getLongitude();
+
+                tMapView.setCenterPoint(cur_lng, cur_lat);
+                tMapView.setLocationPoint(cur_lng, cur_lat );
+
+                if (who.equals("current")) {
+                    //tMapViewInit1();
+                    currentCallServerAsync();
+                }
 
                 // Null 체크 추가하여 안전하게 호출하기
                 if (tMapView != null && tMapView.getMarkerItemFromID("currentLocationMarker") != null) {

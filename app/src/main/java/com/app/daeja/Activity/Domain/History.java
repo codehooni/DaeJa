@@ -1,6 +1,8 @@
 package com.app.daeja.Activity.Domain;
 
-public class History {
+import java.io.Serializable;
+
+public class History implements Serializable  {
     private String startPointTxt;
     private String destinationPointTxt;
 

@@ -59,10 +59,20 @@
         android:id="@+id/img_recommend"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/img_path2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/floating_background" />
+
+    <ImageView
+        android:id="@+id/img_path2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/floating_background" />
+        app:srcCompat="@drawable/ic_find_path" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

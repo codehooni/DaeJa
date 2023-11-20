@@ -3,7 +3,9 @@ package com.app.daeja.Activity.Domain;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ParkingInfo {
+import java.io.Serializable;
+
+public class ParkingInfo implements Serializable {
     @SerializedName("id")
     @Expose
     Integer ID;

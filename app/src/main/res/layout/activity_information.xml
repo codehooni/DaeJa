@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/daeja_main"
+    android:background="@color/daeja_sub"
     tools:context=".Activity.InformationActivity">
 
 
@@ -38,6 +38,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_loc_name"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_find_path" />
 

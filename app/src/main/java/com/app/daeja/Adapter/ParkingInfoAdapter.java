@@ -2,6 +2,8 @@ package com.app.daeja.Adapter;
 
 import static com.app.daeja.Fragment.HistroyFragment.histories;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.daeja.Activity.Domain.History;
 import com.app.daeja.Activity.Domain.ParkingInfo;
+import com.app.daeja.Activity.ParkingDatailActivity;
 import com.app.daeja.Activity.RecomendActivity;
 import com.app.daeja.R;
 import com.bumptech.glide.Glide;
@@ -27,7 +30,6 @@ import com.skt.Tmap.TMapTapi;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.Viewholder> {
     ArrayList<ParkingInfo> parkingInfos;
@@ -48,7 +50,7 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull Viewholder holder, @SuppressLint("RecyclerView") int position) {
         holder.parkingNameTxt.setText(parkingInfos.get(position).getPARKING_NAME());
         holder.parkingStateTxt.setText("주차 잔여공간 " + parkingInfos.get(position).getColor());
         holder.changePercentTxt.setText(formatter.format(parkingInfos.get(position).getCur_PARKING())+ " / " +
@@ -73,26 +75,29 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
                 .load(drawableResourceID)
                 .into(holder.pinImg);
 
-        holder.img_findPath.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Log.e("out lat", parkingInfos.get(position).getLat().toString());
-                Log.e("out lng", parkingInfos.get(position).getLng().toString());
-                launchTmapApp(parkingInfos.get(position).getPARKING_NAME(), parkingInfos.get(position).getLat(), parkingInfos.get(position).getLng());
-                String curLoc = getCurloc();
-                histories.add(new History(curLoc, parkingInfos.get(position).getPARKING_NAME()));
-            }
+        holder.img_findPath.setOnClickListener(v -> {
+            Log.e("out lat", parkingInfos.get(position).getLat().toString());
+            Log.e("out lng", parkingInfos.get(position).getLng().toString());
+            launchTmapApp(parkingInfos.get(position).getPARKING_NAME(), parkingInfos.get(position).getLat(), parkingInfos.get(position).getLng());
+            String curLoc = getCurloc();
+            histories.add(new History(curLoc, parkingInfos.get(position).getPARKING_NAME()));
         });
 
         holder.constraintLayoutPath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recomendActivity.drawPathAsync(parkingInfos.get(position).getLat(), parkingInfos.get(position).getLng());
-                String curLoc = getCurloc();
-                histories.add(new History(curLoc, parkingInfos.get(position).getPARKING_NAME()));
             }
         });
+
+        holder.detailTxt.setOnClickListener(v -> {
+            Intent intent = new Intent(recomendActivity, ParkingDatailActivity.class);
+            ParkingInfo parkingInfo = parkingInfos.get(position);
+            intent.putExtra("parkingInfo", parkingInfo);
+            recomendActivity.startActivity(intent);
+        });
+
+
     }
 
     public void launchTmapApp(String name, double lat, double lng) {
@@ -130,7 +135,7 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
 
     public class Viewholder extends RecyclerView.ViewHolder{
 
-        TextView parkingNameTxt, parkingStateTxt, changePercentTxt, parkingPriceTxt;
+        TextView parkingNameTxt, parkingStateTxt, changePercentTxt, parkingPriceTxt, detailTxt;
         ImageView pinImg, img_findPath;
 
         ConstraintLayout constraintLayoutPath;
@@ -141,6 +146,7 @@ public class ParkingInfoAdapter extends RecyclerView.Adapter<ParkingInfoAdapter.
             parkingStateTxt = itemView.findViewById(R.id.parkingStateTxt);
             changePercentTxt = itemView.findViewById(R.id.changePercentTxt);
             parkingPriceTxt = itemView.findViewById(R.id.parkingPriceTxt);
+            detailTxt = itemView.findViewById(R.id.detailTxt);
             pinImg = itemView.findViewById(R.id.pinImg);
             img_findPath = itemView.findViewById(R.id.img_findPath);
             constraintLayoutPath = itemView.findViewById(R.id.constraintLayoutPath);

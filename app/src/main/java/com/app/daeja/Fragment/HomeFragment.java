@@ -88,43 +88,43 @@ public class HomeFragment extends Fragment {
             TMapViewInit();
         }
 
-        //thread
-        btn = view.findViewById(R.id.btn);
-        btn.setOnClickListener(v -> {
-            //Create Thread
-            isThread = true;
-            thread = new Thread(() -> {
-                while(isThread){
-                    callServer();
-                    handler.sendEmptyMessage(0);
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    tMapView.removeAllMarkerItem();
-                    pointPin();
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+        isThread = true;
+        thread = new Thread(() -> {
+            while(isThread){
+                callServer();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-            });
-            thread.start();
+                tMapView.removeAllMarkerItem();
+                pointPin();
+                resetServer();
+                try {
+                    Thread.sleep(120000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         });
+        thread.start();
 
-        btn2 = (Button) view.findViewById(R.id.btn2);
-        btn2.setOnClickListener(v -> {
-            isThread = false;
-            tMapView.removeAllMarkerItem();
-            pointPin();
-        });
-
-        btn3 = view.findViewById(R.id.btn3);
-        btn3.setOnClickListener(v ->{
-            tMapView.removeAllMarkerItem();
-        });
+        //button
+//        btn = view.findViewById(R.id.btn);
+//        btn.setOnClickListener(v -> {
+//        });
+//
+//        btn2 = (Button) view.findViewById(R.id.btn2);
+//        btn2.setOnClickListener(v -> {
+//            isThread = false;
+//            tMapView.removeAllMarkerItem();
+//            pointPin();
+//        });
+//
+//        btn3 = view.findViewById(R.id.btn3);
+//        btn3.setOnClickListener(v ->{
+//            tMapView.removeAllMarkerItem();
+//        });
 
         img_search = view.findViewById(R.id.img_search);
         search_barEt = view.findViewById(R.id.search_barEt);
@@ -237,10 +237,7 @@ public class HomeFragment extends Fragment {
             tMapView.addMarkerItem(markerId, tMapMarkerItem);
         }
     }
-
-    private void callServer() {
-        parkingInfos = new ArrayList<>();
-
+    private void resetServer() {
         call = retrofit.getApiService().test_api_get_reset();
         call.enqueue(new Callback<List<ParkingInfo>>() {
             @Override
@@ -250,13 +247,11 @@ public class HomeFragment extends Fragment {
             public void onFailure(Call<List<ParkingInfo>> call, Throwable t) {
             }
         });
-        try {
-            Thread.sleep(30000);
-            //Thread.sleep(150000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    }
 
+    private void callServer() {
+        parkingInfos = new ArrayList<>();
+        handler.sendEmptyMessage(0);
         call = retrofit.getApiService().test_api_get_all();
         call.enqueue(new Callback<List<ParkingInfo>>() {
             @Override
@@ -304,10 +299,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 // 현재 위치의 좌표를 가져와서 마커 위치 업데이트
-                Log.d("Location", "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
+                Log.d("Home Location", "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
 
                 cur_lat = location.getLatitude();
                 cur_lng = location.getLongitude();
+
+                tMapView.setCenterPoint(cur_lng, cur_lat);
+                tMapView.setLocationPoint(cur_lng, cur_lat );
 
                 // Null 체크 추가하여 안전하게 호출하기
                 if (tMapView != null && tMapView.getMarkerItemFromID("currentLocationMarker") != null) {
