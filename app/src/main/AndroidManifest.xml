@@ -52,14 +52,20 @@
             android:name=".Activity.RecomendActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.IntroActivity"
+            android:name=".Activity.Intro_Second"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Intro_Frist"
             android:exported="true" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.IntroActivity"
+            android:exported="true" >
         </activity>
         <activity
             android:name=".Activity.LoginActivity"

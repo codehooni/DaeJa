@@ -42,7 +42,7 @@
         <EditText
             android:id="@+id/search_barEt"
             android:layout_width="313dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:ems="10"

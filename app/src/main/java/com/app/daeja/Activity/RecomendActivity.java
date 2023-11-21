@@ -55,8 +55,8 @@ public class RecomendActivity extends AppCompatActivity {
     private LinearLayout linearLayoutTmap;
     private List<ParkingInfo> parkingInfos;
     private TMapView tMapView;
-    private double cur_lat = 37.5663507;
-    private double cur_lng = 126.9851113;
+    private double cur_lat = 37.316108570624706;
+    private double cur_lng = 127.12660302907162;
     private static final String tApiKey = "KbtV6K1LiCa2kYZ2ieDhU3pxBBS5A5gA5CL5O3el";
 
     private Intent secondIntent;
@@ -251,12 +251,15 @@ public class RecomendActivity extends AppCompatActivity {
                 cur_lat = location.getLatitude();
                 cur_lng = location.getLongitude();
 
-                tMapView.setCenterPoint(cur_lng, cur_lat);
-                tMapView.setLocationPoint(cur_lng, cur_lat );
-
                 if (who.equals("current")) {
-                    //tMapViewInit1();
+                    Log.e("in current", "in current");
+                    tMapView.setCenterPoint(cur_lng, cur_lat);
+                    tMapView.setLocationPoint(cur_lng, cur_lat );
                     currentCallServerAsync();
+                }else {
+                    Log.e("in local", "in local");
+                    tMapView.setCenterPoint(loc_lng, loc_lat);
+                    tMapView.setLocationPoint(cur_lng, cur_lat );
                 }
 
                 // Null 체크 추가하여 안전하게 호출하기

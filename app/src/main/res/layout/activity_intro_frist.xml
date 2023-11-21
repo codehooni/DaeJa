@@ -8,20 +8,6 @@
     tools:context=".Activity.IntroActivity"
     tools:ignore="ExtraText">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/myImageView"-->
-<!--        android:layout_width="400dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:src="@drawable/icon_daeja2"-->
-<!--        android:backgroundTint="@color/daeja_sub_2"-->
-<!--        android:layout_marginTop="25dp"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        -->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        tools:ignore="MissingConstraints" />-->
-
     <TextView
         android:id="@+id/textViewTopCenter"
         android:layout_width="wrap_content"
@@ -45,15 +31,14 @@
         app:layout_constraintStart_toStartOf="@+id/textViewTopCenter"
         app:layout_constraintTop_toTopOf="@+id/textViewTopCenter"
         app:layout_constraintTop_toBottomOf="@+id/textViewTopCenter"
-        app:srcCompat="@drawable/ic_intro_map"
-        app:tint="@color/white" />
+        app:srcCompat="@drawable/icon_intro_first_vieww" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:text="편하게 주차 대자"
+        android:text="한 눈에 주차정보"
         android:textColor="#ffffff"
         android:textSize="41sp"
         android:textStyle="bold"
@@ -67,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_marginTop="24dp"
-        android:text="이젠 주차장 어렵게 찾지말고"
+        android:text="주차장 잔여석 및 상세정보 제공"
         android:textAlignment="center"
         android:textColor="#ffffff"
         android:textSize="20sp"
@@ -76,21 +61,6 @@
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_marginTop="24dp"
-        android:text="여기서 편하고 빠르게 대자"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
-        app:layout_constraintHorizontal_bias="0.453"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
     <ImageView
         android:id="@+id/goBtn"
         android:layout_width="wrap_content"
@@ -98,7 +68,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:srcCompat="@drawable/floating_background" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:srcCompat="@drawable/floating_background"
+        android:clickable="true"
+        android:onClick="onGoBtnClick"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
